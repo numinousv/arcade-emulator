@@ -1,299 +1,60 @@
-Welcome to your new TanStack app! 
+# Nedanför är information som t.ex vad som behövs vara med (state management som t.ex zustand osv).
+# **Vi ska göra en ny README senare**
 
-# Getting Started
+## 🍱 React-app med dokumentation och redovisning (E1, E2 & E3)
+Detta är en gruppuppgift som kombinerar kursens samtliga tre former för kompetens kontroll. De olika momenten uppfyller olika kursmål. Det vill säga de kursmål som man bedöms efter i redovisningen är separata från koduppgiften man har jobba på som i sin tur uppfyller andra kursmål än inlämningsuppgiften med dokumentation. Man får alltså tre separata betyg för varje moment, även om de alla kretsar kring samma React-applikation. Se kursplanen för mer detaljerad information.
 
-To run this application:
+ 
 
-```bash
-npm install
-npm run dev
-```
+Det ska finnas commits från samtliga gruppmedlemmar för det ska räknas som att man har deltagit. Övriga regler för grupparbete ska också följas, se stycket om grupparbete i Guide till FMW25 för mer info.
 
-# Building For Production
+ 
 
-To build this application for production:
+E1 - Praktisk uppgift och kodgranskning (React-applikation)
+Denna redovisas på eftermiddagen 2026-03-10. Uppgiften ska innehålla:
 
-```bash
-npm run build
-```
+Komponentbaserad, modulär struktur
+Återanvändbara komponenter
+Routing
+State management
+Går delvis att använda t.ex. React Query
+Komponent- och andra tredjepartsbilbiotek
+API-anrop och strukturerade hanteringsflöden av datanLinks to an external site.
+Optimeringar för ökad prestandaLinks to an external site.
+Optimeringar för ökad tillgänglighetLinks to an external site.
+ 
 
-## Testing
+Speech To Text App
+Om din grupp redan har en bra appidé är det fritt fram att arbeta på den. I annat fall finns det ett API som tar ljudfiler med tal, transkriberar dem och returnerar utskriften i en textsträng. API:t tillhör tjänsten ApyHubLinks to an external site. som har en mängd olika API:er man skulle kunna använda istället, om så önskas.
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
-
-```bash
-npm run test
-```
-
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-
-
-## Shadcn
-
-Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
-
-```bash
-pnpm dlx shadcn@latest add button
-```
-
-
-
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
-
-### Adding A Route
-
-To add a new route to your application just add another a new file in the `./src/routes` directory.
-
-TanStack will automatically generate the content of the route file for you.
-
-Now that you have two routes you can use a `Link` component to navigate between them.
-
-### Adding Links
-
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
-
-```tsx
-import { Link } from "@tanstack/react-router";
-```
-
-Then anywhere in your JSX you can use it like so:
-
-```tsx
-<Link to="/about">About</Link>
-```
-
-This will create a link that will navigate to the `/about` route.
-
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
-
-### Using A Layout
-
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
-
-Here is an example layout that includes a header:
-
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
-
-import { Link } from "@tanstack/react-router";
-
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
-
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
+ApyHub - Convert text to speechLinks to an external site.
+ Designförslag
+NotezyLinks to an external site.
+Voice recorderLinks to an external site.
+AI TranscriptionLinks to an external site.
+API:t tar en .wav-fil med inspelat tal och en sträng med språket som talas
+Ladda ned en parsad array med alla språk som API:t stödjer härDownload array med alla språk som API:t stödjer här
+ Kodexempel:
+Vår gemensamma API key är: APY0SBhWWI0kixOpkR0bkTaqthd3QpAaIzd4EwBzMO7OFRvAMqYM6cMXQ4e0Q29X
+fetch('https://api.apyhub.com/stt/file', {
+  method: 'POST',
+  headers: {
+    'apy-token': 'APY0SBhWWI0kixOpkR0bkTaqthd3QpAaIzd4EwBzMO7OFRvAMqYM6cMXQ4e0Q29X',
   },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
+  body: form
+}).then((res) => res.json());
+ 
 
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
+E2 - Inlämningsuppgift med dokumentation (React-applikationens README)
+Denna bedöms separat, ett par dagar efter redovisningen ägt rum. Uppgiften ska dokumentera:
 
-### React-Query
+Projektets struktur och arbetsflöde
+Hur och vilka tillgänglighetsprinciper som implementeratsLinks to an external site.
+ 
 
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
+E3 - Presentation/reflektion (Redovisning av React-applikationen)
+Själva redovisningen av applikationen bedöms efter två specifika kursmål:
 
-First add your dependencies:
-
-```bash
-npm install @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-npm install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+AI-generera kodförslag och föreslå förbättringar på dem
+Skrev ned och visa upp dessa exempel om den AI-genererade koden som ni förbättrat inte finns med i appens källkod
+Gå igenom designbesluten, samspelet mellan komponenterna etc.
