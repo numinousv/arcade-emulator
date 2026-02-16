@@ -1,5 +1,5 @@
 {
-  "projectName": "my-app",
+  "projectName": "arcade-emulator",
   "mode": "file-router",
   "typescript": true,
   "tailwind": true,

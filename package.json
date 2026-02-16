@@ -1,5 +1,5 @@
 {
-  "name": "my-app",
+  "name": "arcade-emulator",
   "private": true,
   "type": "module",
   "scripts": {
