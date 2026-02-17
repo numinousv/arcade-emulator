@@ -1,385 +1,323 @@
-import { createFileRoute } from "@tanstack/react-router";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { createFileRoute } from '@tanstack/react-router'
+import React, { useState, useEffect, useRef } from 'react'
 
-export const Route = createFileRoute("/")({ component: App });
+// Det här behövs för routingen
+export const Route = createFileRoute('/')({
+  component: ArcadeApp,
+})
 
-// --- LJUDMOTOR (Synth) ---
-const playArcadeSound = (type: 'move' | 'jump' | 'start' | 'coin' | 'die') => {
-  const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
-  if (!AudioContext) return;
-  const ctx = new AudioContext();
-  const osc = ctx.createOscillator();
-  const gain = ctx.createGain();
+// --- IKONER (Enkla SVG:er) ---
+const GameIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <rect x="2" y="6" width="20" height="12" rx="2" />
+    <path d="M6 12h4m-2-2v4m11-2h2m-2 0h-2" />
+  </svg>
+)
 
-  osc.connect(gain);
-  gain.connect(ctx.destination);
-  const now = ctx.currentTime;
+const BackIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M19 12H5M12 19l-7-7 7-7" />
+  </svg>
+)
 
-  if (type === 'move') {
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(120, now);
-    osc.frequency.exponentialRampToValueAtTime(40, now + 0.05);
-    gain.gain.setValueAtTime(0.05, now);
-    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-    osc.start(now);
-    osc.stop(now + 0.05);
-  } else if (type === 'coin') {
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(1200, now);
-    osc.frequency.setValueAtTime(1800, now + 0.1);
-    gain.gain.setValueAtTime(0.1, now);
-    gain.gain.linearRampToValueAtTime(0, now + 0.2);
-    osc.start(now);
-    osc.stop(now + 0.2);
-  } else if (type === 'die') {
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(300, now);
-    osc.frequency.linearRampToValueAtTime(50, now + 0.5);
-    gain.gain.setValueAtTime(0.2, now);
-    gain.gain.linearRampToValueAtTime(0, now + 0.5);
-    osc.start(now);
-    osc.stop(now + 0.5);
-  } else if (type === 'start') {
-    const playNote = (f: number, t: number) => {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.connect(g);
-      g.connect(ctx.destination);
-      o.type = 'square';
-      o.frequency.value = f;
-      g.gain.setValueAtTime(0.1, t);
-      g.gain.linearRampToValueAtTime(0, t + 0.1);
-      o.start(t);
-      o.stop(t + 0.1);
-    };
-    playNote(440, now);
-    playNote(554, now + 0.15);
-    playNote(660, now + 0.30);
-  }
-};
-
-// Hjälpfunktion för kollision
-const checkCollision = (p1: {x: number, y: number}, p2: {x: number, y: number}, threshold: number = 5) => {
-  const dx = p1.x - p2.x;
-  const dy = p1.y - p2.y;
-  return Math.sqrt(dx * dx + dy * dy) < threshold;
-};
-
-function App() {
-  const [gameState, setGameState] = useState<'DEMO' | 'PLAYING' | 'GAMEOVER'>('DEMO');
-  const [score, setScore] = useState(0);
-  
-  // Positioner (0-100%)
-  const [player, setPlayer] = useState({ x: 50, y: 50 });
-  const [enemy, setEnemy] = useState({ x: 10, y: 10 });
-  const [coins, setCoins] = useState<{id: number, x: number, y: number}[]>([]);
-  const [facing, setFacing] = useState(1);
-
-  // Joystick state
-  const [joystickVec, setJoystickVec] = useState({ x: 0, y: 0 }); // För visuell lutning
-  const joystickRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-
-  // --- SPEL-LOOP ---
-  useEffect(() => {
-    if (gameState !== 'PLAYING') return;
-
-    const interval = setInterval(() => {
-      setPlayer((p) => {
-        let newX = p.x;
-        let newY = p.y;
-        
-        // Flytta baserat på joystick-vektor (om man drar) eller tangentbord (om implementerat separat)
-        // Här använder vi joystickVec som "input" för rörelse
-        if (Math.abs(joystickVec.x) > 5) newX += joystickVec.x * 0.05;
-        if (Math.abs(joystickVec.y) > 5) newY += joystickVec.y * 0.05;
-
-        // Gränser
-        return {
-          x: Math.max(0, Math.min(92, newX)),
-          y: Math.max(0, Math.min(92, newY))
-        };
-      });
-
-      // Fiende AI (Jagar spelaren långsamt)
-      setEnemy((e) => {
-        // Vi behöver 'player' här inne, men state är asynkront. 
-        // Vi gör en enkel tracking inuti setState callbacken genom att läsa av en ref eller
-        // acceptera att fienden "laggar" en frame.
-        return e; 
-      });
-
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [gameState, joystickVec]);
-
-  // --- SEPARAT LOOP FÖR LOGIK SOM KRÄVER UPPDATERAD STATE (Kollisioner & AI) ---
-  useEffect(() => {
-    if (gameState !== 'PLAYING') return;
-
-    const gameLogic = setInterval(() => {
-      // 1. Flytta fienden mot spelaren
-      setEnemy(e => {
-        const dx = player.x - e.x;
-        const dy = player.y - e.y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        const speed = 0.8; // Fiendens hastighet
-        
-        if (dist < 1) return e; // Stå still om nära
-        return {
-          x: e.x + (dx / dist) * speed,
-          y: e.y + (dy / dist) * speed
-        };
-      });
-
-      // 2. Kolla kollision med Fiende (DÖD)
-      if (checkCollision(player, enemy, 4)) {
-        playArcadeSound('die');
-        setGameState('GAMEOVER');
-      }
-
-      // 3. Kolla kollision med Mynt (POÄNG)
-      setCoins(currentCoins => {
-        const remaining = currentCoins.filter(c => {
-          const hit = checkCollision(player, c, 5);
-          if (hit) {
-            playArcadeSound('coin');
-            setScore(s => s + 100);
-          }
-          return !hit;
-        });
-        
-        // Om alla mynt är slut, skapa nya!
-        if (remaining.length === 0) {
-          return Array.from({length: 5}).map((_, i) => ({
-            id: Date.now() + i,
-            x: Math.random() * 80 + 10,
-            y: Math.random() * 80 + 10
-          }));
-        }
-        return remaining;
-      });
-
-    }, 50);
-
-    return () => clearInterval(gameLogic);
-  }, [gameState, player, enemy]);
-
-
-  // --- TANGENTBORD ---
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (gameState !== 'PLAYING') return;
-      
-      // Vi simulerar joystick-rörelse med tangenter
-      const speed = 20; 
-      if (e.key === 'ArrowUp') setJoystickVec({x: 0, y: -speed});
-      if (e.key === 'ArrowDown') setJoystickVec({x: 0, y: speed});
-      if (e.key === 'ArrowLeft') { setJoystickVec({x: -speed, y: 0}); setFacing(-1); }
-      if (e.key === 'ArrowRight') { setJoystickVec({x: speed, y: 0}); setFacing(1); }
-    };
-    
-    const stopKey = () => setJoystickVec({x:0, y:0});
-
-    window.addEventListener('keydown', handleKey);
-    window.addEventListener('keyup', stopKey);
-    return () => {
-      window.removeEventListener('keydown', handleKey);
-      window.removeEventListener('keyup', stopKey);
-    };
-  }, [gameState]);
-
-
-  // --- JOYSTICK TOUCH/MOUSE LOGIC ---
-  const handleJoystickStart = (e: React.PointerEvent) => {
-    e.preventDefault(); // Stoppa scrolling
-    setIsDragging(true);
-    updateJoystick(e);
-  };
-
-  const handleJoystickMove = (e: React.PointerEvent) => {
-    if (!isDragging) return;
-    updateJoystick(e);
-  };
-
-  const handleJoystickEnd = () => {
-    setIsDragging(false);
-    setJoystickVec({ x: 0, y: 0 }); // Snäpp tillbaka till mitten
-  };
-
-  const updateJoystick = (e: React.PointerEvent) => {
-    if (!joystickRef.current) return;
-    const rect = joystickRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    
-    // Räkna ut avstånd från mitten
-    let dx = e.clientX - centerX;
-    let dy = e.clientY - centerY;
-    
-    // Begränsa hur långt man kan dra (max 40px)
-    const distance = Math.sqrt(dx*dx + dy*dy);
-    const maxDist = 40;
-    if (distance > maxDist) {
-      dx = (dx / distance) * maxDist;
-      dy = (dy / distance) * maxDist;
-    }
-
-    setJoystickVec({ x: dx, y: dy });
-    
-    // Uppdatera vilket håll gubben tittar
-    if (dx < -10) setFacing(-1);
-    if (dx > 10) setFacing(1);
-    
-    // Spela ljud ibland när man rör sig
-    if (gameState === 'PLAYING' && Math.random() > 0.9) playArcadeSound('move');
-  };
-
-
-  const startGame = () => {
-    setScore(0);
-    setPlayer({ x: 50, y: 50 });
-    setEnemy({ x: 5, y: 5 });
-    setCoins(Array.from({length: 3}).map((_, i) => ({
-      id: i, x: Math.random() * 80 + 10, y: Math.random() * 80 + 10
-    })));
-    setGameState('PLAYING');
-    playArcadeSound('start');
-  };
+// --- HUVUDKOMPONENT ---
+function ArcadeApp() {
+  // State för att hålla koll på om vi spelar eller är i menyn
+  const [valtSpel, setValtSpel] = useState<string | null>(null)
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-800 overflow-hidden font-sans select-none touch-none">
+    // Låser skärmen så man inte kan scrolla (h-screen, overflow-hidden)
+    <div className="h-screen w-screen bg-gray-900 text-white overflow-hidden flex flex-col font-sans">
       
-      {/* ARCADE CABINET */}
-      <div className="relative flex flex-col items-center h-[95vh] aspect-[3/4] max-h-[900px] max-w-[600px] !bg-[#1a4da1] border-[8px] border-black rounded-2xl shadow-[20px_20px_0px_#d32f2f]">
-        
-        {/* HEADER */}
-        <div className="flex items-center justify-center w-full h-[12%] !bg-[#ffeb3b] border-b-[8px] border-black shrink-0">
-          <h1 className="text-[4vh] font-black !text-[#d32f2f] tracking-widest drop-shadow-[4px_4px_0_#000]">
-            DOPE MAN
-          </h1>
-        </div>
-
-        {/* SCREEN */}
-        <div className="flex-1 w-full flex items-center justify-center p-4 bg-[#111]">
-          <div className={`relative w-full h-full border-[8px] border-[#333] rounded-lg shadow-[inset_0_0_30px_rgba(0,0,0,0.9)] overflow-hidden transition-colors duration-200 ${gameState === 'GAMEOVER' ? '!bg-[#330000]' : gameState === 'PLAYING' ? '!bg-[#001100]' : '!bg-black'}`}>
-            
-            {/* SCANLINES */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_4px,6px_100%] pointer-events-none"></div>
-
-            {/* UI LAGER */}
-            <div className="absolute top-2 left-4 text-white font-mono text-[2vh] z-30">SCORE: {score}</div>
-            {gameState === 'PLAYING' && (
-               <div className="absolute top-2 right-4 text-white font-mono text-[2vh] z-30">ENEMY: 👾</div>
-            )}
-
-            {/* SPELLAGER */}
-            {gameState === 'PLAYING' && (
-              <>
-                {/* SPELARE */}
-                <div 
-                  className="absolute text-[4vh] z-20 transition-transform duration-75"
-                  style={{ left: `${player.x}%`, top: `${player.y}%`, transform: `translate(-50%, -50%) scaleX(${facing})` }}
-                >
-                  👻
-                </div>
-
-                {/* FIENDE */}
-                <div 
-                  className="absolute text-[4vh] z-20 transition-all duration-300 ease-linear"
-                  style={{ left: `${enemy.x}%`, top: `${enemy.y}%`, transform: `translate(-50%, -50%)` }}
-                >
-                  👾
-                </div>
-
-                {/* MYNT */}
-                {coins.map(c => (
-                  <div 
-                    key={c.id}
-                    className="absolute text-[2vh] z-15 animate-bounce"
-                    style={{ left: `${c.x}%`, top: `${c.y}%` }}
-                  >
-                    🪙
-                  </div>
-                ))}
-              </>
-            )}
-
-            {/* MENYER */}
-            {gameState === 'DEMO' && (
-              <div className="flex flex-col items-center justify-center h-full z-30 relative">
-                <div className="text-[5vh] animate-bounce">👻</div>
-                <div className="text-[3vh] font-bold !text-yellow-400 mb-2 mt-4">PRESS START</div>
-                <div className="text-[1.5vh] text-white/70">USE JOYSTICK TO MOVE</div>
-              </div>
-            )}
-
-            {gameState === 'GAMEOVER' && (
-               <div className="flex flex-col items-center justify-center h-full z-30 relative bg-black/50 w-full">
-                <div className="text-[5vh] font-bold !text-red-600 mb-2">GAME OVER</div>
-                <div className="text-[3vh] text-white mb-6">SCORE: {score}</div>
-                <button 
-                  onClick={startGame}
-                  className="px-6 py-2 bg-yellow-400 border-4 border-black font-bold text-xl hover:bg-white cursor-pointer pointer-events-auto"
-                >
-                  TRY AGAIN
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* KONTROLLPANEL */}
-        <div className="flex items-center justify-around w-full h-[25%] !bg-[#0d347a] border-t-[8px] border-black shrink-0 px-4 pb-4 select-none">
-          
-          {/* INTERAKTIV JOYSTICK (DRAGBAR) */}
-          <div 
-            ref={joystickRef}
-            className="relative w-[18vh] h-[18vh] bg-black/30 rounded-full border-4 border-black/50 touch-none cursor-grab active:cursor-grabbing"
-            onPointerDown={handleJoystickStart}
-            onPointerMove={handleJoystickMove}
-            onPointerUp={handleJoystickEnd}
-            onPointerLeave={handleJoystickEnd}
-          >
-            {/* Själva spaken som rör sig */}
-            <div 
-              className="absolute w-[6vh] h-[6vh] !bg-[#d32f2f] rounded-full border-[3px] border-black shadow-lg z-50 pointer-events-none"
-              style={{
-                top: '50%',
-                left: '50%',
-                transform: `translate(calc(-50% + ${joystickVec.x}px), calc(-50% + ${joystickVec.y}px))`
-              }}
-            >
-              {/* Glans på bollen */}
-              <div className="absolute top-1 left-2 w-3 h-3 bg-white/40 rounded-full"></div>
-            </div>
-            {/* Pinnen under (visuell) */}
-            <div 
-              className="absolute w-4 h-[50%] bg-gray-500 bottom-[50%] left-[50%] -translate-x-1/2 origin-bottom pointer-events-none -z-10"
-              style={{
-                transform: `rotate(${joystickVec.x * 0.5}deg)`
-              }}
-            ></div>
-          </div>
-
-          {/* ACTION KNAPPAR */}
-          <div className="flex gap-6 items-center">
-            <button 
-              onPointerDown={() => { if(gameState==='DEMO') startGame(); }}
-              className="w-[10vh] h-[10vh] !bg-[#ffeb3b] border-[5px] border-black rounded-full shadow-[0_6px_0_#000] active:shadow-none active:translate-y-2 transition-all active:!bg-[#e6d600]"
-            ></button>
-            
-            <button 
-              onPointerDown={() => { if(gameState==='DEMO') startGame(); }}
-              className="w-[10vh] h-[10vh] !bg-[#d32f2f] border-[5px] border-black rounded-full shadow-[0_6px_0_#000] active:shadow-none active:translate-y-2 transition-all active:!bg-[#b71c1c]"
-            ></button>
-          </div>
-
-        </div>
-      </div>
+      {valtSpel ? (
+        // Om ett spel är valt, visa spelet
+        <SimpleGame onBack={() => setValtSpel(null)} />
+      ) : (
+        // Annars visa menyn
+        <MenuScreen onPlay={(id) => setValtSpel(id)} />
+      )}
+    
     </div>
-  );
+  )
 }
 
-export default App;
+// --- MENYN ---
+function MenuScreen({ onPlay }: { onPlay: (id: string) => void }) {
+  return (
+    <div className="flex flex-col items-center justify-center h-full p-4 space-y-8">
+      
+      {/* Rubrik */}
+      <div className="text-center">
+        <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+          ARCADE
+        </h1>
+        <p className="text-gray-400 mt-2 tracking-widest">VÄLJ DITT SPEL</p>
+      </div>
+
+      {/* Kort-container */}
+      <div className="flex flex-col md:flex-row gap-6">
+        
+        {/* Spel 1 */}
+        <div 
+          onClick={() => onPlay('space')}
+          className="cursor-pointer bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-purple-500 hover:scale-105 transition-transform w-64 text-center"
+        >
+          <div className="bg-purple-900/50 p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4 text-purple-300">
+            <GameIcon />
+          </div>
+          <h2 className="text-xl font-bold mb-2">SPACE SHOOTER</h2>
+          <p className="text-sm text-gray-400">Skjut ner fienderna!</p>
+          <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded w-full font-bold">
+            SPELA
+          </button>
+        </div>
+
+        {/* Spel 2 (Bara för syns skull, leder till samma spel i detta demo) */}
+        <div 
+          onClick={() => onPlay('race')}
+          className="cursor-pointer bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-blue-500 hover:scale-105 transition-transform w-64 text-center"
+        >
+          <div className="bg-blue-900/50 p-4 rounded-full w-16 h-16 mx-auto flex items-center justify-center mb-4 text-blue-300">
+            <GameIcon />
+          </div>
+          <h2 className="text-xl font-bold mb-2">NEON RACER</h2>
+          <p className="text-sm text-gray-400">Kör snabbast i stan.</p>
+          <button className="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full font-bold">
+            SPELA
+          </button>
+        </div>
+
+      </div>
+      
+      <p className="text-xs text-gray-600 absolute bottom-4">Tryck på ett kort för att starta</p>
+    </div>
+  )
+}
+
+// --- SPELET ---
+function SimpleGame({ onBack }: { onBack: () => void }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+  
+  // States för poäng och liv
+  const [score, setScore] = useState(0)
+  const [gameOver, setGameOver] = useState(false)
+  
+  // useEffect körs när komponenten laddas
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    // --- SPELVARIABLER ---
+    // Jag använder "let" här för saker som ändras
+    let gameRunning = true
+    let frameId = 0
+    
+    // Spelaren
+    const player = {
+      x: 375, // Mitten ungefär (800 / 2 - 25)
+      y: 500,
+      width: 50,
+      height: 50,
+      speed: 5
+    }
+
+    // Listor för skott och fiender
+    let bullets: any[] = []
+    let enemies: any[] = []
+    
+    // Knappar
+    const keys = {
+      ArrowLeft: false,
+      ArrowRight: false,
+      Space: false
+    }
+
+    // Lyssna på tangentbordet
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'ArrowLeft') keys.ArrowLeft = true
+      if (e.code === 'ArrowRight') keys.ArrowRight = true
+      
+      // Skjut bara om man trycker Space och spelet är igång
+      if (e.code === 'Space') {
+        if (!keys.Space) {
+          // Lägg till ett nytt skott i listan
+          bullets.push({
+            x: player.x + 20, // Centrera skottet
+            y: player.y,
+            width: 10,
+            height: 20
+          })
+        }
+        keys.Space = true
+      }
+    }
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.code === 'ArrowLeft') keys.ArrowLeft = false
+      if (e.code === 'ArrowRight') keys.ArrowRight = false
+      if (e.code === 'Space') keys.Space = false
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('keyup', handleKeyUp)
+
+    // Funktion för att skapa fiender då och då
+    const enemyInterval = setInterval(() => {
+      if (gameRunning) {
+        enemies.push({
+          x: Math.random() * (canvas.width - 40),
+          y: -40,
+          width: 40,
+          height: 40,
+          speed: 2 + Math.random() // Lite olika hastighet
+        })
+      }
+    }, 1000) // Varje sekund
+
+    // --- SPELLOOPEN (Körs 60 gånger i sekunden) ---
+    const loop = () => {
+      if (!gameRunning) return
+
+      // 1. Rensa skärmen
+      ctx.fillStyle = '#111827' // Mörkgrå bakgrund
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
+
+      // 2. Uppdatera spelaren
+      if (keys.ArrowLeft && player.x > 0) {
+        player.x -= player.speed
+      }
+      if (keys.ArrowRight && player.x < canvas.width - player.width) {
+        player.x += player.speed
+      }
+
+      // Rita spelaren (en enkel fyrkant)
+      ctx.fillStyle = '#3b82f6' // Blå färg
+      ctx.fillRect(player.x, player.y, player.width, player.height)
+
+      // 3. Hantera skott
+      // Jag använder en vanlig for-loop för det är enklare att kontrollera
+      for (let i = 0; i < bullets.length; i++) {
+        let b = bullets[i]
+        b.y -= 7 // Skottets hastighet uppåt
+        
+        // Rita skottet
+        ctx.fillStyle = '#ef4444' // Röd
+        ctx.fillRect(b.x, b.y, b.width, b.height)
+
+        // Ta bort skott om de åker utanför
+        if (b.y < 0) {
+          bullets.splice(i, 1)
+          i--
+        }
+      }
+
+      // 4. Hantera fiender
+      for (let i = 0; i < enemies.length; i++) {
+        let e = enemies[i]
+        e.y += e.speed // Fienden åker neråt
+        
+        // Rita fienden
+        ctx.fillStyle = '#22c55e' // Grön
+        ctx.fillRect(e.x, e.y, e.width, e.height)
+
+        // KOLLISION: Skott träffar fiende
+        for (let j = 0; j < bullets.length; j++) {
+          let b = bullets[j]
+          
+          // Enkel kollisions-check (rektangel mot rektangel)
+          if (
+            b.x < e.x + e.width &&
+            b.x + b.width > e.x &&
+            b.y < e.y + e.height &&
+            b.height + b.y > e.y
+          ) {
+            // Träff! Ta bort både skott och fiende
+            enemies.splice(i, 1)
+            bullets.splice(j, 1)
+            i--
+            j--
+            // Uppdatera poängen (måste använda callback för state inne i loop)
+            setScore(prev => prev + 10)
+            break // Hoppa ur inre loopen
+          }
+        }
+
+        // GAME OVER: Fiende träffar spelaren eller botten
+        if (e.y > canvas.height) {
+            // Om fienden når botten, ta bort den (eller game over om man vill)
+            enemies.splice(i, 1)
+            i--
+        }
+        
+        // Om fienden krockar med spelaren
+        if (
+            player.x < e.x + e.width &&
+            player.x + player.width > e.x &&
+            player.y < e.y + e.height &&
+            player.height + player.y > e.y
+        ) {
+            gameRunning = false
+            setGameOver(true)
+        }
+      }
+
+      frameId = requestAnimationFrame(loop)
+    }
+
+    // Starta spelet
+    loop()
+
+    // Städning när man lämnar sidan
+    return () => {
+      cancelAnimationFrame(frameId)
+      clearInterval(enemyInterval)
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, []) // Tom array betyder att detta körs en gång vid start
+
+  return (
+    <div className="flex flex-col items-center justify-center w-full h-full bg-black relative">
+      
+      {/* Tillbaka knapp */}
+      <button 
+        onClick={onBack} 
+        className="absolute top-4 left-4 text-white hover:text-gray-300 flex items-center gap-2"
+      >
+        <BackIcon /> MENY
+      </button>
+
+      {/* Poängräknare */}
+      <div className="absolute top-4 text-white font-mono text-xl border border-white/20 px-4 py-2 rounded bg-black/50">
+        Poäng: {score}
+      </div>
+
+      {/* Spelplanen */}
+      <canvas 
+        ref={canvasRef} 
+        width={800} 
+        height={600} 
+        className="bg-gray-800 rounded-lg shadow-2xl max-w-full h-auto border-4 border-gray-700"
+      />
+
+      {/* Game Over Ruta */}
+      {gameOver && (
+        <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center">
+          <h1 className="text-5xl text-red-500 font-bold mb-4">GAME OVER</h1>
+          <p className="text-white text-xl mb-6">Du fick {score} poäng</p>
+          <button 
+            onClick={onBack}
+            className="bg-white text-black px-6 py-3 rounded font-bold hover:bg-gray-200"
+          >
+            FÖRSÖK IGEN
+          </button>
+        </div>
+      )}
+
+      <p className="text-gray-500 mt-4 text-sm">Använd pilarna för att styra och Mellanslag för att skjuta</p>
+    </div>
+  )
+}
