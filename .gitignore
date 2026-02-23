@@ -5,6 +5,7 @@ dist-ssr
 *.local
 count.txt
 .env
+VITE_PIXELDRAIN_API_KEY=4ab376d4-bc75-4b67-bd7c-bd3d818b744b
 .nitro
 .tanstack
 .wrangler
