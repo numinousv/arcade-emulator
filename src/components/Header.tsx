@@ -32,7 +32,7 @@ export default function Header() {
           <Link to="/">
             <img
               src="/tanstack-word-logo-white.svg"
-              alt="TanStack Logo"
+              alt=""
               className="h-10"
             />
           </Link>
