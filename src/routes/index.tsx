@@ -18,20 +18,23 @@ function HomePage() {
       <Button>Game Library</Button>
 
       {!game ? (
-        <div className="w-full space-y-2.5">
+        <div className="m-2.5 flex bg-center">
           {GAMES.map((g) => (
             <Button
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
-              className="block w-full p-4"
+              className="m-2.5 flex bg-center"
             >
               {g.name}
             </Button>
           ))}
         </div>
       ) : (
-        <div className="w-full space-y-2.5">
-          <Button onClick={() => setSelectedGame(null)} className="mb-2.5">
+        <div className="m-2.5 flex bg-center">
+          <Button
+            onClick={() => setSelectedGame(null)}
+            className="mb-2.5 flex bg-center"
+          >
             ← Back
           </Button>
           <div className="w-full">

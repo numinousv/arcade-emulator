@@ -7,12 +7,9 @@ export const GameLibrary = () => {
   const [search, setSearch] = useState("");
   const { selectGame } = useGameStore();
   // (game) =>
-  const filteredGames = GAMES.filter(
-    (game) => {
-      game.name.toLowerCase().includes(search.toLowerCase()) ||
-    }
-  );
-
+  const filteredGames = GAMES.filter((game) => {
+    game.name.toLowerCase().includes(search.toLowerCase()) || "";
+  });
 
   return (
     <div className="p-5 max-w-[1200px] mx-auto">

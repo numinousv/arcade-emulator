@@ -113,7 +113,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
         onClick={startGame}
         variant="default"
         size="lg"
-        className="px-10 py-5 text-xl bg-green-600 hover:bg-green-700 text-white border-none rounded-lg cursor-pointer"
+        className="px-10 py-5 text-xl text-black border-none rounded-lg cursor-pointer"
       >
         ▶ Play {gameName}
       </Button>
