@@ -111,9 +111,9 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
     return (
       <Button
         onClick={startGame}
-        variant="default"
+        variant="outline"
         size="lg"
-        className="px-10 py-5 text-xl text-black border-none rounded-lg cursor-pointer"
+        className="px-10 py-5 text-xl text-white border-none rounded-lg cursor-pointer"
       >
         ▶ Play {gameName}
       </Button>
@@ -121,7 +121,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
   }
 
   if (status === "loading") {
-    return <div className="p-5">Loading game...</div>;
+    return <div className="p-5 text-white">Loading game...</div>;
   }
 
   return (

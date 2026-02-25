@@ -25,7 +25,7 @@ function HomePage() {
         <div className="m-10 flex items-center justify-center h-screen">
           {GAMES.map((g) => (
             <AnimatedButton
-              className="flex items-center"
+              className="h-9 px-4 py-2 px-3 flex items-center"
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
             >
