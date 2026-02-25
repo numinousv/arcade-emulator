@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { GAMES } from "../config/games";
 import { Emulator } from "../components/Emulator";
+import { Button } from "@/components/ui/button";
+// import CreepyButton from "@/components/ui/creepy-button";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -13,30 +15,31 @@ function HomePage() {
   const game = GAMES.find((g) => g.id === selectedGame);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Game Library</h1>
+    <div className="m-2.5 flex items-center">
+      <Button>Game Library</Button>
 
       {!game ? (
-        <div>
+        <div className="w-full">
           {GAMES.map((g) => (
-            <button
+            //Was creepy button
+            <Button
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
-              style={{
-                display: "block",
-                padding: 15,
-                marginBottom: 10,
-                width: "100%",
-              }}
+              className="block w-full mb-2.5 p-4"
             >
               {g.name}
-            </button>
+            </Button>
           ))}
         </div>
       ) : (
-        <div>
-          <button onClick={() => setSelectedGame(null)}>← Back</button>
-          <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
+        <div className="w-full">
+          //Was creepy button
+          <Button onClick={() => setSelectedGame(null)} className="mb-2.5">
+            ← Back
+          </Button>
+          <Button className="w-full">
+            <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
+          </Button>
         </div>
       )}
     </div>

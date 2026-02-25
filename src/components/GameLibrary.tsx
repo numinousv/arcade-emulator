@@ -6,39 +6,27 @@ import { Game } from "../types/game";
 export const GameLibrary = () => {
   const [search, setSearch] = useState("");
   const { selectGame } = useGameStore();
-
+  // (game) =>
   const filteredGames = GAMES.filter(
-    (game) =>
+    (game) => {
       game.name.toLowerCase().includes(search.toLowerCase()) ||
-      game.tags?.some((tag) => tag.includes(search.toLowerCase())),
+    }
   );
 
+
   return (
-    <div style={{ padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-      <h1>🎮 Retro Game Library</h1>
+    <div className="p-5 max-w-[1200px] mx-auto">
+      <h1 className="text-2xl font-bold mb-4">🎮 Retro Game Library</h1>
 
       <input
         type="text"
         placeholder="Search games..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          fontSize: "16px",
-          marginBottom: "20px",
-          borderRadius: "8px",
-          border: "1px solid #ccc",
-        }}
+        className="w-full p-3 text-base mb-5 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-          gap: "20px",
-        }}
-      >
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-5">
         {filteredGames.map((game) => (
           <GameCard key={game.id} game={game} onSelect={selectGame} />
         ))}
@@ -53,65 +41,41 @@ const GameCard = ({
 }: {
   game: Game;
   onSelect: (g: Game) => void;
-}) => (
-  <div
-    onClick={() => onSelect(game)}
-    style={{
-      border: "2px solid #333",
-      borderRadius: "12px",
-      padding: "15px",
-      cursor: "pointer",
-      transition: "transform 0.2s, box-shadow 0.2s",
-      background: "#1a1a1a",
-      color: "white",
-      ":hover": {
-        transform: "translateY(-5px)",
-        boxShadow: "0 10px 20px rgba(0,0,0,0.3)",
-      },
-    }}
-  >
-    {game.cover ? (
-      <img
-        src={game.cover}
-        alt={game.name}
-        style={{
-          width: "100%",
-          height: "150px",
-          objectFit: "cover",
-          borderRadius: "8px",
-        }}
-      />
-    ) : (
-      <div
-        style={{
-          width: "100%",
-          height: "150px",
-          background: "#333",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "8px",
-        }}
-      >
-        No Cover
-      </div>
-    )}
+}) => {
+  const [isHovered, setIsHovered] = useState(false);
 
-    <h3 style={{ margin: "10px 0 5px 0", fontSize: "16px" }}>{game.name}</h3>
-    <p
+  return (
+    <div
+      onClick={() => onSelect(game)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="border-2 border-gray-700 rounded-xl p-4 cursor-pointer bg-[#1a1a1a] text-white transition-all duration-200"
       style={{
-        margin: 0,
-        color: "#888",
-        fontSize: "12px",
-        textTransform: "uppercase",
+        transform: isHovered ? "translateY(-5px)" : "translateY(0)",
+        boxShadow: isHovered ? "0 10px 20px rgba(0,0,0,0.3)" : "none",
       }}
     >
-      {game.core}
-    </p>
-    {game.description && (
-      <p style={{ margin: "5px 0 0 0", fontSize: "12px", color: "#aaa" }}>
-        {game.description}
+      {game.cover ? (
+        <img
+          src={game.cover}
+          alt={game.name}
+          className="w-full h-[150px] object-cover rounded-lg"
+        />
+      ) : (
+        <div className="w-full h-[150px] bg-gray-700 flex items-center justify-center rounded-lg">
+          No Cover
+        </div>
+      )}
+
+      <h3 className="my-2 text-base font-medium">{game.name}</h3>
+      <p className="m-0 text-gray-500 text-xs uppercase tracking-wide">
+        {game.core}
       </p>
-    )}
-  </div>
-);
+      {game.description && (
+        <p className="mt-1 text-xs text-gray-400 line-clamp-2">
+          {game.description}
+        </p>
+      )}
+    </div>
+  );
+};

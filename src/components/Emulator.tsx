@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "./ui/button";
 
 interface EmulatorProps {
   romUrl: string;
@@ -92,42 +93,40 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
 
   if (status === "error") {
     return (
-      <div style={{ color: "red", padding: 20 }}>
+      <div className="text-red-600 p-5">
         <p>Error: {errorMsg}</p>
-        <button onClick={() => setStatus("idle")}>Retry</button>
+        <Button
+          onClick={() => setStatus("idle")}
+          variant="destructive"
+          size="sm"
+          className="mt-2"
+        >
+          Retry
+        </Button>
       </div>
     );
   }
 
   if (status === "idle") {
     return (
-      <button
+      <Button
         onClick={startGame}
-        style={{
-          padding: "20px 40px",
-          fontSize: "20px",
-          background: "#4CAF50",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
+        variant="default"
+        size="lg"
+        className="px-10 py-5 text-xl bg-green-600 hover:bg-green-700 text-white border-none rounded-lg cursor-pointer"
       >
         ▶ Play {gameName}
-      </button>
+      </Button>
     );
   }
 
   if (status === "loading") {
-    return <div style={{ padding: 20 }}>Loading game...</div>;
+    return <div className="p-5">Loading game...</div>;
   }
 
   return (
     <div>
-      <div
-        id="game"
-        style={{ width: "100%", height: "600px", background: "#000" }}
-      />
+      <div id="game" className="w-full h-[600px] bg-black" />
     </div>
   );
 }

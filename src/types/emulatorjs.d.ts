@@ -1,4 +1,3 @@
-// types/emulatorjs.d.ts
 export {};
 
 declare global {
@@ -11,7 +10,6 @@ declare global {
     EJS_gameName: string;
     EJS_startOnLoaded: boolean;
 
-    // Optional
     EJS_disableAutoLang?: boolean;
     EJS_language?: string;
     EJS_cheats?: any[];
