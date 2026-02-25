@@ -3,10 +3,13 @@ import { useState } from "react";
 import { GAMES } from "../config/games";
 import { Emulator } from "../components/Emulator";
 import { Button } from "@/components/ui/button";
-import { AnimatedButton } from "@components/ui/animated-button";
-{ Component:any "HomePage";
-};
-
+import AnimatedButton from "@/components/ui/animated-button";
+// {
+//   Component: HomePage;
+// }
+export const Route = createFileRoute("/")({
+  component: HomePage,
+});
 function HomePage() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
 
@@ -33,8 +36,10 @@ function HomePage() {
           <AnimatedButton
             onClick={() => setSelectedGame(null)}
             className="w-full bg-center"
-          >     </AnimatedButton>
-            ← Back
+          >
+            {" "}
+          </AnimatedButton>
+          ← Back
           <div className="w-full">
             <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
           </div>
