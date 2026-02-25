@@ -3,7 +3,6 @@ import { useState } from "react";
 import { GAMES } from "../config/games";
 import { Emulator } from "../components/Emulator";
 import { Button } from "@/components/ui/button";
-// import CreepyButton from "@/components/ui/creepy-button";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -15,31 +14,29 @@ function HomePage() {
   const game = GAMES.find((g) => g.id === selectedGame);
 
   return (
-    <div className="m-2.5 flex items-center">
+    <div className="m-2.5 flex flex-col items-start gap-4">
       <Button>Game Library</Button>
 
       {!game ? (
-        <div className="w-full">
+        <div className="w-full space-y-2.5">
           {GAMES.map((g) => (
-            //Was creepy button
             <Button
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
-              className="block w-full mb-2.5 p-4"
+              className="block w-full p-4"
             >
               {g.name}
             </Button>
           ))}
         </div>
       ) : (
-        <div className="w-full">
-          //Was creepy button
+        <div className="w-full space-y-2.5">
           <Button onClick={() => setSelectedGame(null)} className="mb-2.5">
             ← Back
           </Button>
-          <Button className="w-full">
+          <div className="w-full">
             <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
-          </Button>
+          </div>
         </div>
       )}
     </div>
