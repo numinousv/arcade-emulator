@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { MoveLeftIcon } from "lucide-react";
+import { GameLibrary } from "@/components/GameLibrary";
 import { GAMES } from "../config/games";
 import { Emulator } from "../components/Emulator";
 import { Button } from "@/components/ui/button";
@@ -16,30 +18,30 @@ function HomePage() {
   const game = GAMES.find((g) => g.id === selectedGame);
 
   return (
-    <div className="m-2.5 flex flex-col items-start gap-4">
-      <Button>Game Library</Button>
+    <div className="m-4 flex flex-col items-start gap-4">
+      <Button variant="outline">Game Library</Button>
 
       {!game ? (
-        <div className="m-2.5 flex bg-center">
+        <div className="m-10 flex items-center justify-center h-screen">
           {GAMES.map((g) => (
             <AnimatedButton
+              className="flex items-center"
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
-              className="m-2.5 flex bg-center"
             >
               {g.name}
             </AnimatedButton>
           ))}
         </div>
       ) : (
-        <div className="m-2.5 flex bg-center">
+        <div className="m-10 flex items-center">
           <AnimatedButton
             onClick={() => setSelectedGame(null)}
-            className="w-full bg-center"
+            className="flex items-center"
           >
             {" "}
           </AnimatedButton>
-          ← Back
+          <MoveLeftIcon>← Back</MoveLeftIcon>
           <div className="w-full">
             <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
           </div>
