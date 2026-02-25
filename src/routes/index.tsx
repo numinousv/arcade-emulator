@@ -3,10 +3,9 @@ import { useState } from "react";
 import { GAMES } from "../config/games";
 import { Emulator } from "../components/Emulator";
 import { Button } from "@/components/ui/button";
-
-export const Route = createFileRoute("/")({
-  component: HomePage,
-});
+import { AnimatedButton } from "@components/ui/animated-button";
+{ Component:any "HomePage";
+};
 
 function HomePage() {
   const [selectedGame, setSelectedGame] = useState<string | null>(null);
@@ -20,23 +19,22 @@ function HomePage() {
       {!game ? (
         <div className="m-2.5 flex bg-center">
           {GAMES.map((g) => (
-            <Button
+            <AnimatedButton
               key={g.id}
               onClick={() => setSelectedGame(g.id)}
               className="m-2.5 flex bg-center"
             >
               {g.name}
-            </Button>
+            </AnimatedButton>
           ))}
         </div>
       ) : (
         <div className="m-2.5 flex bg-center">
-          <Button
+          <AnimatedButton
             onClick={() => setSelectedGame(null)}
-            className="mb-2.5 flex bg-center"
-          >
+            className="w-full bg-center"
+          >     </AnimatedButton>
             ← Back
-          </Button>
           <div className="w-full">
             <Emulator romUrl={game.url} core={game.core} gameName={game.name} />
           </div>
