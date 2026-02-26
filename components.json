@@ -10,9 +10,7 @@
     "cssVariables": true,
     "prefix": ""
   },
-  "registries": {
-    "@efferd": "https://efferd.com/r/{style}/{name}.json"
-  },
+  "iconLibrary": "lucide",
   "aliases": {
     "components": "@/components",
     "utils": "@/lib/utils",
@@ -20,5 +18,9 @@
     "lib": "@/lib",
     "hooks": "@/hooks"
   },
-  "iconLibrary": "lucide"
+  "registries": {
+    "@efferd": "https://efferd.com/r/{style}/{name}.json",
+    "@magicui": "https://magicui.design/r/{name}",
+    "@8bitcn": "https://www.8bitcn.com/r/{name}.json"
+  }
 }
