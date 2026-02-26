@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 import { MobileNav } from "@/components/mobile-nav";
 import { Link, useLocation } from "@tanstack/react-router";
-
+import { Home } from "@nsmr/pixelart-react";
 export const navLinks = [
-  { label: "Home", to: "/" },
-  { label: "Emulator", to: "/about" },
+  { label: <Home />, to: "/" },
+  { label: "Emulator", to: "/emupage" },
   { label: "idk", to: "/idk" },
 ] as const;
 
@@ -20,8 +20,8 @@ export function Header() {
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full border-b transition-all",
-        scrolled && "border-border bg-background/95 backdrop-blur-sm",
+        "sticky top-0 z-50 w-full bg-gray-600/7 border-b transition-all",
+        scrolled && "border-border bg-background/5 backdrop-blur-sm",
       )}
     >
       <nav className="mx-auto flex h-14 w-full max-w-5xl items-center justify-between px-4">
@@ -30,7 +30,7 @@ export function Header() {
           className="rounded-md p-2 font-semibold hover:bg-muted"
         ></Link>
 
-        <div className="hidden items-center gap-2 md:flex">
+        <div className="hidden items-center gap-3 md:flex">
           {navLinks.map((link) => (
             <Button
               key={link.label}
@@ -41,7 +41,11 @@ export function Header() {
               <Link to={link.to}>{link.label}</Link>
             </Button>
           ))}
-          <AnimatedThemeToggler h-4 />
+        </div>
+        <div className="flex px-4 place-items-end">
+          <Button size="sm" variant="outline">
+            <AnimatedThemeToggler />
+          </Button>
         </div>
         <MobileNav />
       </nav>

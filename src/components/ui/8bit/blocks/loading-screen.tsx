@@ -40,7 +40,7 @@ export default function LoadingScreen({
   const [currentTipIndex, setCurrentTipIndex] = useState(0);
   const [showCursor, setShowCursor] = useState(true);
   const [internalProgress, setInternalProgress] = useState(
-    autoProgress ? 0 : progress
+    autoProgress ? 0 : progress,
   );
 
   useEffect(() => {
@@ -93,10 +93,7 @@ export default function LoadingScreen({
     <div className="flex flex-col items-center justify-center gap-6 p-8">
       {/* Title */}
       <h2
-        className={cn(
-          "retro text-xl md:text-2xl text-center",
-          "animate-pulse"
-        )}
+        className={cn("retro text-xl md:text-2xl text-center", "animate-pulse")}
       >
         {title}
       </h2>
@@ -135,7 +132,7 @@ export default function LoadingScreen({
         className={cn(
           "fixed inset-0 z-50 flex items-center justify-center",
           "bg-background",
-          className
+          className,
         )}
         {...props}
       >
@@ -150,4 +147,3 @@ export default function LoadingScreen({
     </div>
   );
 }
-
