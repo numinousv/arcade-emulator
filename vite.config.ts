@@ -24,7 +24,7 @@ const config = defineConfig({
     cors: true, // enables CORS
     proxy: {
       "/api": {
-        target: "", // directly target the actual API
+        target: "https://catbox.moe", // directly target the actual API
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
