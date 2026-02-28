@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { Particles } from "@/components/ui/particles";
 import { MoveLeftIcon } from "lucide-react";
 import { GAMES } from "../config/games";
@@ -29,12 +30,16 @@ function RouteComponent() {
         ease={20}
         quantity={120}
       />
-
       {/* Content - centered with padding for header */}
-      <div className="relative z-10 container mx-auto px-4 pt-24 pb-8">
+      <motion.div
+        initial={{ opacity: 0 }} // start invisible
+        animate={{ opacity: 1 }} // fade in
+        transition={{ duration: 1 }} // duration
+        className="relative z-10 container mx-auto px-4 pt-24 pb-8"
+      >
         {!game ? (
           /* Game Selection View */
-          <div className="flex flex-col items-center justify-center">
+          <motion.div className="flex flex-col items-center justify-center">
             <Button8 className="text-2xl font-bold mb-8 text-center">
               Select a Game
             </Button8>
@@ -57,7 +62,7 @@ function RouteComponent() {
                 </Card>
               ))}
             </div>
-          </div>
+          </motion.div>
         ) : (
           /* Game Play View */
           <div className="flex flex-col items-center max-w-4xl mx-auto">
@@ -69,9 +74,11 @@ function RouteComponent() {
               >
                 <MoveLeftIcon className="h-4 w-4" /> Back to Library
               </Button8>
-              <h2 className="text-xl font-semibold flex-1 text-center">
-                Now Playing: {game.name}
-              </h2>
+              <Button variant="default">
+                <h2 className="text-xl font-semibold flex-1 text-center">
+                  Now Playing: {game.name}
+                </h2>
+              </Button>
             </div>
 
             <div className="w-full bg-black/20 rounded-lg p-4">
@@ -83,7 +90,7 @@ function RouteComponent() {
             </div>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   );
 }

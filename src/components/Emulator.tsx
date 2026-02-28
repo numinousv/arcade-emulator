@@ -35,22 +35,28 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
       }
 
       // Check for valid N64 header (should start with 0x80 or similar)
-      const isValidN64 =
-        firstBytes[0] === 0x80 ||
-        firstBytes[0] === 0x37 ||
-        firstBytes[0] === 0x40;
+      // const isValidN64 =
+      //   firstBytes[0] === 0x80 ||
+      //   firstBytes[0] === 0x37 ||
+      //   firstBytes[0] === 0x40;
+      // console.log(
+      //   "Valid N64 header?",
+      //   isValidN64,
+      //   "First byte:",
+      //   firstBytes[0].toString(16),
+      // );
+
+      // if (!isValidN64 || arrayBuffer.byteLength < 1000000) {
+      //   throw new Error(
+      //     `Invalid ROM: ${arrayBuffer.byteLength} bytes, header: 0x${firstBytes[0].toString(16)}`,
+      //   );
+      // }
       console.log(
-        "Valid N64 header?",
-        isValidN64,
         "First byte:",
         firstBytes[0].toString(16),
+        "Size:",
+        arrayBuffer.byteLength,
       );
-
-      if (!isValidN64 || arrayBuffer.byteLength < 1000000) {
-        throw new Error(
-          `Invalid ROM: ${arrayBuffer.byteLength} bytes, header: 0x${firstBytes[0].toString(16)}`,
-        );
-      }
 
       const blob = new Blob([arrayBuffer], {
         type: "application/octet-stream",
