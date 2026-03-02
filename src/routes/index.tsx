@@ -7,7 +7,7 @@ const GameIcon = () => (
   </svg>
 )
 
-export const Route = createFileRoute('/game/')({
+export const Route = createFileRoute('/')({
   component: ArcadeApp,
 })
 
