@@ -10,7 +10,7 @@ import { Home } from "lucide-react";
 export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/emupage" },
-  { label: "idk", to: "/idk" },
+  { label: "Tetris", to: "/tetrispage" },
 ] as const;
 
 export function Header() {
@@ -33,17 +33,18 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           {navLinks.map((link) => (
             <Button
-              key={link.label}
+              key={link.to}
               size="sm"
               variant={location.pathname === link.to ? "outline" : "outline"}
               asChild
+              className="text-primary"
             >
               <Link to={link.to}>{link.label}</Link>
             </Button>
           ))}
         </div>
         <div className="flex px-4 place-items-end">
-          <Button size="sm" variant="outline">
+          <Button size="sm" variant="outline" asChild className="text-primary">
             <AnimatedThemeToggler />
           </Button>
         </div>

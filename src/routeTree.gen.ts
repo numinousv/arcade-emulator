@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TetrispageRouteImport } from './routes/tetrispage'
 import { Route as EmupageRouteImport } from './routes/emupage'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TetrispageRoute = TetrispageRouteImport.update({
+  id: '/tetrispage',
+  path: '/tetrispage',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EmupageRoute = EmupageRouteImport.update({
   id: '/emupage',
   path: '/emupage',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
+  '/tetrispage': typeof TetrispageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
+  '/tetrispage': typeof TetrispageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
+  '/tetrispage': typeof TetrispageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/emupage'
+  fullPaths: '/' | '/emupage' | '/tetrispage'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/emupage'
-  id: '__root__' | '/' | '/emupage'
+  to: '/' | '/emupage' | '/tetrispage'
+  id: '__root__' | '/' | '/emupage' | '/tetrispage'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EmupageRoute: typeof EmupageRoute
+  TetrispageRoute: typeof TetrispageRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tetrispage': {
+      id: '/tetrispage'
+      path: '/tetrispage'
+      fullPath: '/tetrispage'
+      preLoaderRoute: typeof TetrispageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/emupage': {
       id: '/emupage'
       path: '/emupage'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EmupageRoute: EmupageRoute,
+  TetrispageRoute: TetrispageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
