@@ -136,3 +136,4 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
     </div>
   );
 }
+//id to change resolution of display yes

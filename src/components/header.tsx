@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 import { MobileNav } from "@/components/mobile-nav";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Home } from "@nsmr/pixelart-react";
+import { Home } from "lucide-react";
 export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/emupage" },
