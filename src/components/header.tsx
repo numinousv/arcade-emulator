@@ -11,6 +11,7 @@ export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/emupage" },
   { label: "idk", to: "/idk" },
+  { label: "Arcade", to: "/arcade" },
 ] as const;
 
 export function Header() {
