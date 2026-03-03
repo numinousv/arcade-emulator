@@ -44,9 +44,7 @@ export function Header() {
           ))}
         </div>
         <div className="flex px-4 place-items-end">
-          <Button size="sm" variant="outline" asChild className="text-primary">
             <AnimatedThemeToggler />
-          </Button>
         </div>
         <MobileNav />
       </nav>
