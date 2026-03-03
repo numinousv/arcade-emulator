@@ -4,6 +4,6 @@ export interface Game {
   core: string;
   url: string;
   cover?: string;
-  description?: string;
+  description: string;
   tags?: string[];
 }
