@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IdkRouteImport } from './routes/idk'
 import { Route as EmupageRouteImport } from './routes/emupage'
+import { Route as ArcadeRouteImport } from './routes/arcade'
 import { Route as IndexRouteImport } from './routes/index'
 
 const IdkRoute = IdkRouteImport.update({
@@ -23,6 +24,11 @@ const EmupageRoute = EmupageRouteImport.update({
   path: '/emupage',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArcadeRoute = ArcadeRouteImport.update({
+  id: '/arcade',
+  path: '/arcade',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -31,30 +37,34 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/emupage' | '/idk'
+  fullPaths: '/' | '/arcade' | '/emupage' | '/idk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/emupage' | '/idk'
-  id: '__root__' | '/' | '/emupage' | '/idk'
+  to: '/' | '/arcade' | '/emupage' | '/idk'
+  id: '__root__' | '/' | '/arcade' | '/emupage' | '/idk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArcadeRoute: typeof ArcadeRoute
   EmupageRoute: typeof EmupageRoute
   IdkRoute: typeof IdkRoute
 }
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EmupageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/arcade': {
+      id: '/arcade'
+      path: '/arcade'
+      fullPath: '/arcade'
+      preLoaderRoute: typeof ArcadeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArcadeRoute: ArcadeRoute,
   EmupageRoute: EmupageRoute,
   IdkRoute: IdkRoute,
 }

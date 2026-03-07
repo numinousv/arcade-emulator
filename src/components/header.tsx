@@ -11,6 +11,7 @@ export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/emupage" },
   { label: "Tetris", to: "/idk" },
+  { label: "Arcade", to: "/arcade" },
 ] as const;
 
 export function Header() {
@@ -44,7 +45,7 @@ export function Header() {
           ))}
         </div>
         <div className="flex px-4 place-items-end">
-            <AnimatedThemeToggler />
+          <AnimatedThemeToggler />
         </div>
         <MobileNav />
       </nav>
