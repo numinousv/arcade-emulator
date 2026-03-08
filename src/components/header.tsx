@@ -34,19 +34,18 @@ export function Header() {
         <div className="hidden items-center gap-3 md:flex">
           {navLinks.map((link) => (
             <Button
-              key={link.label}
+              key={link.to}
               size="sm"
               variant={location.pathname === link.to ? "outline" : "outline"}
               asChild
+              className="text-primary"
             >
               <Link to={link.to}>{link.label}</Link>
             </Button>
           ))}
         </div>
         <div className="flex px-4 place-items-end">
-          <Button size="sm" variant="outline">
             <AnimatedThemeToggler />
-          </Button>
         </div>
         <MobileNav />
       </nav>

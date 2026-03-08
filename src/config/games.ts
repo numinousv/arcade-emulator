@@ -4,6 +4,7 @@ export interface Game {
   core: string;
   url: string;
   cover: string;
+  
 }
 
 export const GAMES: Game[] = [
