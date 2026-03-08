@@ -10,7 +10,6 @@ import { Home } from "lucide-react";
 export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/emupage" },
-  { label: "idk", to: "/idk" },
   { label: "Arcade", to: "/arcade" },
 ] as const;
 

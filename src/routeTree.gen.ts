@@ -56,10 +56,10 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/arcade' | '/emupage'
+  fullPaths: '/' | '/arcade' | '/emupage' | '/idk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/arcade' | '/emupage'
-  id: '__root__' | '/' | '/arcade' | '/emupage'
+  to: '/' | '/arcade' | '/emupage' | '/idk'
+  id: '__root__' | '/' | '/arcade' | '/emupage' | '/idk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -77,7 +77,7 @@ declare module '@tanstack/react-router' {
       fullPath: '/idk'
       preLoaderRoute: typeof IdkRouteImport
       parentRoute: typeof rootRouteImport
-    }agents, and apps from this ruleset by adding them to the bypass list.
+    }
     '/emupage': {
       id: '/emupage'
       path: '/emupage'
