@@ -9,16 +9,12 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IdkRouteImport } from './routes/idk'
 import { Route as EmupageRouteImport } from './routes/emupage'
 import { Route as ArcadeRouteImport } from './routes/arcade'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConsoleIdkRouteImport } from './routes/console/idk'
+import { Route as ConsoleConsoleIdRouteImport } from './routes/console/$consoleId'
 
-const IdkRoute = IdkRouteImport.update({
-  id: '/idk',
-  path: '/idk',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const EmupageRoute = EmupageRouteImport.update({
   id: '/emupage',
   path: '/emupage',
@@ -34,50 +30,68 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsoleIdkRoute = ConsoleIdkRouteImport.update({
+  id: '/console/idk',
+  path: '/console/idk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConsoleConsoleIdRoute = ConsoleConsoleIdRouteImport.update({
+  id: '/console/$consoleId',
+  path: '/console/$consoleId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
-  '/idk': typeof IdkRoute
+  '/console/$consoleId': typeof ConsoleConsoleIdRoute
+  '/console/idk': typeof ConsoleIdkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
-  '/idk': typeof IdkRoute
+  '/console/$consoleId': typeof ConsoleConsoleIdRoute
+  '/console/idk': typeof ConsoleIdkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/emupage': typeof EmupageRoute
-  '/idk': typeof IdkRoute
+  '/console/$consoleId': typeof ConsoleConsoleIdRoute
+  '/console/idk': typeof ConsoleIdkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/arcade' | '/emupage' | '/idk'
+  fullPaths:
+    | '/'
+    | '/arcade'
+    | '/emupage'
+    | '/console/$consoleId'
+    | '/console/idk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/arcade' | '/emupage' | '/idk'
-  id: '__root__' | '/' | '/arcade' | '/emupage' | '/idk'
+  to: '/' | '/arcade' | '/emupage' | '/console/$consoleId' | '/console/idk'
+  id:
+    | '__root__'
+    | '/'
+    | '/arcade'
+    | '/emupage'
+    | '/console/$consoleId'
+    | '/console/idk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArcadeRoute: typeof ArcadeRoute
   EmupageRoute: typeof EmupageRoute
-  IdkRoute: typeof IdkRoute
+  ConsoleConsoleIdRoute: typeof ConsoleConsoleIdRoute
+  ConsoleIdkRoute: typeof ConsoleIdkRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/idk': {
-      id: '/idk'
-      path: '/idk'
-      fullPath: '/idk'
-      preLoaderRoute: typeof IdkRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/emupage': {
       id: '/emupage'
       path: '/emupage'
@@ -99,6 +113,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/console/idk': {
+      id: '/console/idk'
+      path: '/console/idk'
+      fullPath: '/console/idk'
+      preLoaderRoute: typeof ConsoleIdkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/console/$consoleId': {
+      id: '/console/$consoleId'
+      path: '/console/$consoleId'
+      fullPath: '/console/$consoleId'
+      preLoaderRoute: typeof ConsoleConsoleIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,7 +134,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArcadeRoute: ArcadeRoute,
   EmupageRoute: EmupageRoute,
-  IdkRoute: IdkRoute,
+  ConsoleConsoleIdRoute: ConsoleConsoleIdRoute,
+  ConsoleIdkRoute: ConsoleIdkRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

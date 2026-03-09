@@ -1,0 +1,55 @@
+import { GAMES } from "./games";
+
+// Get unique cores and create console definitions
+export const CONSOLES = [
+  {
+    id: "n64",
+    name: "Nintendo 64",
+    description: "64-bit games, iconic 3D titles",
+    icon: "🕹️",
+    color: "from-purple-900 to-purple-700",
+    core: "n64",
+    games: GAMES.filter((g) => g.core === "n64"),
+    count: GAMES.filter((g) => g.core === "n64").length,
+  },
+  {
+    id: "gba",
+    name: "Game Boy Advance",
+    description: "Handheld classics but with a functioning screen this time!",
+    icon: "🎮",
+    color: "from-green-900 to-green-700",
+    core: "gba",
+    games: GAMES.filter((g) => g.core === "gba"),
+    count: GAMES.filter((g) => g.core === "gba").length,
+  },
+  {
+    id: "psx",
+    name: "PlayStation",
+    description: "32-bit (yes, surprisingly) classics",
+    icon: "💿",
+    color: "from-blue-900 to-blue-700",
+    core: "psx",
+    games: GAMES.filter((g) => g.core === "psx"),
+    count: GAMES.filter((g) => g.core === "psx").length,
+  },
+  {
+    id: "snes",
+    name: "Super Nintendo",
+    description: "16-bit classics",
+    icon: "🎮",
+    color: "from-gray-900 to-gray-700",
+    core: "snes",
+    games: GAMES.filter((g) => g.core === "snes"),
+    count: GAMES.filter((g) => g.core === "snes").length,
+  },
+  {
+    id: "nes",
+    name: "Nintendo Entertainment System",
+    description: "8-bit, humble beginnings",
+    icon: "👾",
+    color: "from-red-900 to-red-700",
+    core: "nes",
+    games: GAMES.filter((g) => g.core === "nes"),
+    count: GAMES.filter((g) => g.core === "nes").length,
+  },
+].filter((console) => console.count > 0); // Only show consoles that have games

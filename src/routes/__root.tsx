@@ -2,7 +2,6 @@ import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 import { Header } from "@/components/header";
 import appCss from "../styles.css?url";
-
 export const Route = createRootRoute({
   head: () => ({
     meta: [
@@ -22,6 +21,7 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "stylesheet", href: "/src/components/ui/8bit/styles/retro.css" },
     ],
   }),
   component: RootDocument,
