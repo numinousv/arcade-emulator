@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TetrisStartRouteImport } from './routes/tetrisStart'
 import { Route as IdkRouteImport } from './routes/idk'
 import { Route as EmupageRouteImport } from './routes/emupage'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TetrisStartRoute = TetrisStartRouteImport.update({
+  id: '/tetrisStart',
+  path: '/tetrisStart',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IdkRoute = IdkRouteImport.update({
   id: '/idk',
   path: '/idk',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
+  '/tetrisStart': typeof TetrisStartRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
+  '/tetrisStart': typeof TetrisStartRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/emupage': typeof EmupageRoute
   '/idk': typeof IdkRoute
+  '/tetrisStart': typeof TetrisStartRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/emupage' | '/idk'
+  fullPaths: '/' | '/emupage' | '/idk' | '/tetrisStart'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/emupage' | '/idk'
-  id: '__root__' | '/' | '/emupage' | '/idk'
+  to: '/' | '/emupage' | '/idk' | '/tetrisStart'
+  id: '__root__' | '/' | '/emupage' | '/idk' | '/tetrisStart'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EmupageRoute: typeof EmupageRoute
   IdkRoute: typeof IdkRoute
+  TetrisStartRoute: typeof TetrisStartRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tetrisStart': {
+      id: '/tetrisStart'
+      path: '/tetrisStart'
+      fullPath: '/tetrisStart'
+      preLoaderRoute: typeof TetrisStartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/idk': {
       id: '/idk'
       path: '/idk'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EmupageRoute: EmupageRoute,
   IdkRoute: IdkRoute,
+  TetrisStartRoute: TetrisStartRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
