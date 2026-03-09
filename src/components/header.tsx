@@ -9,7 +9,7 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Home } from "lucide-react";
 export const navLinks = [
   { label: <Home />, to: "/" },
-  { label: "Emulator", to: "/console/idk" },
+  { label: "Emulator", to: "/console" },
   { label: "Arcade", to: "/arcade" },
 ] as const;
 

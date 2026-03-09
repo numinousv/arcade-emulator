@@ -132,7 +132,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
 
   return (
     <div>
-      <div id="game" className="w-full h-[600px] bg-black" />
+      <div id="game" className="w-full h-150 bg-black" />
     </div>
   );
 }

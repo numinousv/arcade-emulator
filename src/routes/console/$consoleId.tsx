@@ -48,7 +48,7 @@ function ConsolePage() {
           // game selec
           <div>
             <div className="flex items-center gap-4 mb-8">
-              <Link to="/console/idk">
+              <Link to="/console">
                 <Button8
                   variant="outline"
                   className="flex items-center text-muted-foreground mx-auto"

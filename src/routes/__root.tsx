@@ -32,7 +32,7 @@ function RootDocument() {
     <>
       <Header />
       <Outlet /> {/* render child routes */}
-      <TanStackRouterDevtools position="bottom-right" />
+      {/*  <TanStackRouterDevtools position="bottom-right" /> */}
     </>
   );
 }

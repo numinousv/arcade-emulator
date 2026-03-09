@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ArcadeRouteImport } from './routes/arcade'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ConsoleIdkRouteImport } from './routes/console/idk'
+import { Route as ConsoleIndexRouteImport } from './routes/console/index'
 import { Route as ConsoleConsoleIdRouteImport } from './routes/console/$consoleId'
 
 const ArcadeRoute = ArcadeRouteImport.update({
@@ -24,9 +24,9 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ConsoleIdkRoute = ConsoleIdkRouteImport.update({
-  id: '/console/idk',
-  path: '/console/idk',
+const ConsoleIndexRoute = ConsoleIndexRouteImport.update({
+  id: '/console/',
+  path: '/console/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ConsoleConsoleIdRoute = ConsoleConsoleIdRouteImport.update({
@@ -39,34 +39,34 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
-  '/console/idk': typeof ConsoleIdkRoute
+  '/console/': typeof ConsoleIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
-  '/console/idk': typeof ConsoleIdkRoute
+  '/console': typeof ConsoleIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
-  '/console/idk': typeof ConsoleIdkRoute
+  '/console/': typeof ConsoleIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
+  fullPaths: '/' | '/arcade' | '/console/$consoleId' | '/console/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
-  id: '__root__' | '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
+  to: '/' | '/arcade' | '/console/$consoleId' | '/console'
+  id: '__root__' | '/' | '/arcade' | '/console/$consoleId' | '/console/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArcadeRoute: typeof ArcadeRoute
   ConsoleConsoleIdRoute: typeof ConsoleConsoleIdRoute
-  ConsoleIdkRoute: typeof ConsoleIdkRoute
+  ConsoleIndexRoute: typeof ConsoleIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +85,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/console/idk': {
-      id: '/console/idk'
-      path: '/console/idk'
-      fullPath: '/console/idk'
-      preLoaderRoute: typeof ConsoleIdkRouteImport
+    '/console/': {
+      id: '/console/'
+      path: '/console'
+      fullPath: '/console/'
+      preLoaderRoute: typeof ConsoleIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/console/$consoleId': {
@@ -106,7 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArcadeRoute: ArcadeRoute,
   ConsoleConsoleIdRoute: ConsoleConsoleIdRoute,
-  ConsoleIdkRoute: ConsoleIdkRoute,
+  ConsoleIndexRoute: ConsoleIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

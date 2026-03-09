@@ -19,7 +19,7 @@ import {
 import { Button8 } from "@/components/ui/8bit/button";
 import { CONSOLES } from "@/config/consoles";
 
-export const Route = createFileRoute("/console/idk")({
+export const Route = createFileRoute("/console/")({
   component: HomePage,
 });
 
