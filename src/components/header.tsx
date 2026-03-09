@@ -9,9 +9,8 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { Home } from "lucide-react";
 export const navLinks = [
   { label: <Home />, to: "/" },
-  { label: "Emulator", to: "/emupage" },
+  { label: "Emulator", to: "/console/idk" },
   { label: "Arcade", to: "/arcade" },
-  { label: "idk", to: "/console/idk" },
 ] as const;
 
 export function Header() {
