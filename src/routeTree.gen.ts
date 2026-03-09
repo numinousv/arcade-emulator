@@ -9,17 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as EmupageRouteImport } from './routes/emupage'
 import { Route as ArcadeRouteImport } from './routes/arcade'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ConsoleIdkRouteImport } from './routes/console/idk'
 import { Route as ConsoleConsoleIdRouteImport } from './routes/console/$consoleId'
 
-const EmupageRoute = EmupageRouteImport.update({
-  id: '/emupage',
-  path: '/emupage',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ArcadeRoute = ArcadeRouteImport.update({
   id: '/arcade',
   path: '/arcade',
@@ -44,14 +38,12 @@ const ConsoleConsoleIdRoute = ConsoleConsoleIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
-  '/emupage': typeof EmupageRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
   '/console/idk': typeof ConsoleIdkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
-  '/emupage': typeof EmupageRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
   '/console/idk': typeof ConsoleIdkRoute
 }
@@ -59,46 +51,26 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/arcade': typeof ArcadeRoute
-  '/emupage': typeof EmupageRoute
   '/console/$consoleId': typeof ConsoleConsoleIdRoute
   '/console/idk': typeof ConsoleIdkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/arcade'
-    | '/emupage'
-    | '/console/$consoleId'
-    | '/console/idk'
+  fullPaths: '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/arcade' | '/emupage' | '/console/$consoleId' | '/console/idk'
-  id:
-    | '__root__'
-    | '/'
-    | '/arcade'
-    | '/emupage'
-    | '/console/$consoleId'
-    | '/console/idk'
+  to: '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
+  id: '__root__' | '/' | '/arcade' | '/console/$consoleId' | '/console/idk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArcadeRoute: typeof ArcadeRoute
-  EmupageRoute: typeof EmupageRoute
   ConsoleConsoleIdRoute: typeof ConsoleConsoleIdRoute
   ConsoleIdkRoute: typeof ConsoleIdkRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/emupage': {
-      id: '/emupage'
-      path: '/emupage'
-      fullPath: '/emupage'
-      preLoaderRoute: typeof EmupageRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/arcade': {
       id: '/arcade'
       path: '/arcade'
@@ -133,7 +105,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArcadeRoute: ArcadeRoute,
-  EmupageRoute: EmupageRoute,
   ConsoleConsoleIdRoute: ConsoleConsoleIdRoute,
   ConsoleIdkRoute: ConsoleIdkRoute,
 }

@@ -49,12 +49,16 @@ function ConsolePage() {
           <div>
             <div className="flex items-center gap-4 mb-8">
               <Link to="/console/idk">
-                <Button8 variant="outline" className="flex items-center gap-2">
-                  <MoveLeftIcon className="h-4 w-4" /> All Consoles
+                <Button8
+                  variant="outline"
+                  className="flex items-center text-muted-foreground mx-auto"
+                >
+                  <MoveLeftIcon className="h-4 w-4 border-t-foreground" /> All
+                  Consoles
                 </Button8>
               </Link>
               <div>
-                <h1 className="text-3xl font-bold text-muted-foreground">
+                <h1 className="text-3xl font-bold text-orange-300">
                   {console.name}
                 </h1>
                 <p className="text-muted-foreground text-sm">
@@ -67,7 +71,11 @@ function ConsolePage() {
               {console.games.map((g) => (
                 <Card
                   key={g.id}
-                  className="w-full cursor-pointer hover:shadow-lg transition-shadow"
+                  className={`
+                  relative overflow-hidden cursor-pointer group
+                  border-2 hover:border-primary transition-all
+                  bg-gradient-to-br w-full max-w-6xl mx-auto ${console.color}
+                `}
                   onClick={() => setSelectedGame(g.id)}
                 >
                   <CardHeader>
@@ -90,7 +98,7 @@ function ConsolePage() {
               <Button8
                 variant="outline"
                 onClick={() => setSelectedGame(null)}
-                className="flex items-center gap-2"
+                className="flex items-center text-muted-foreground mx-auto"
               >
                 <MoveLeftIcon className="h-4 w-4" /> Back to {console.name}{" "}
                 Games
