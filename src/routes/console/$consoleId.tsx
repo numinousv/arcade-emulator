@@ -37,7 +37,6 @@ const GameCard = memo(
   }) => (
     <Card
       key={game.id}
-      aria-
       className={`
       relative overflow-hidden cursor-pointer group
       border-2 hover:border-primary transition-all
@@ -109,15 +108,15 @@ function ConsolePage() {
         {!game ? (
           // game selec view
           <div>
-            <div className="flex items-center gap-4 mb-8">
+            <div className="flex items-center gap-4 mb-8 text-muted-foreground">
               <Link to="/console">
                 <Button8
                   variant="outline"
                   className="flex items-center text-muted-foreground mx-auto"
                   aria-label="Back to all consoles"
                 >
-                  <MoveLeftIcon className="h-4 w-4 border-t-foreground" /> All
-                  Consoles
+                  <MoveLeftIcon className="h-4 w-4 text-muted-foreground border-t-foreground" />{" "}
+                  All Consoles
                 </Button8>
               </Link>
               <div>

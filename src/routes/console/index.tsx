@@ -49,11 +49,9 @@ function HomePage() {
         </div>
 
         <Carousel
-          opts={{
-            align: "center",
-            loop: true,
-          }}
+          opts={{ align: "center", loop: true }}
           className="w-full max-w-6xl mx-auto"
+          aria-label="Console selection carousel"
         >
           <CarouselContent>
             {CONSOLES.map((console) => (

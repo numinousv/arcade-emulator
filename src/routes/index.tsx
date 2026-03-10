@@ -69,7 +69,7 @@ function HomePage() {
                   rel="noopener noreferrer"
                   aria-label="View source on GitHub"
                 >
-                  <Github className="h-6 w-6" />
+                  <Github className="h-6 w-6 text-muted-foreground" />
                 </a>
               </Button>
             </div>

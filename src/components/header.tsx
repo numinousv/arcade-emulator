@@ -38,12 +38,13 @@ export function Header() {
               variant={location.pathname === link.to ? "outline" : "outline"}
               asChild
               className="text-primary"
+              aria-label={`Navigate to ${typeof link.label === "object" ? "home" : link.label} page`}
             >
               <Link to={link.to}>{link.label}</Link>
             </Button>
           ))}
         </div>
-        <div className="flex px-4 place-items-end">
+        <div className="flex px-4 place-items-end" aria-label="Theme toggle">
           <AnimatedThemeToggler />
         </div>
         <MobileNav />

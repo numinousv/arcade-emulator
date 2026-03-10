@@ -41,7 +41,7 @@ export function MobileNav() {
                 <Button
                   asChild
                   className="justify-start"
-                  key={link.label}
+                  key={link.to}
                   variant="outline"
                 >
                   <Link to={link.to}>{link.label}</Link>
