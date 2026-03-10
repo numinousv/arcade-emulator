@@ -1,4 +1,4 @@
-// /components/header.tsx (minimal but complete, swap for something nicer later maybe)
+// /components/header.tsx
 "use client";
 import { cn } from "@/lib/utils";
 import { useScroll } from "@/hooks/use-scroll";
@@ -7,10 +7,12 @@ import { AnimatedThemeToggler } from "./ui/animated-theme-toggler";
 import { MobileNav } from "@/components/mobile-nav";
 import { Link, useLocation } from "@tanstack/react-router";
 import { Home } from "lucide-react";
+
 export const navLinks = [
   { label: <Home />, to: "/" },
   { label: "Emulator", to: "/console" },
   { label: "Arcade", to: "/arcade" },
+  { label: "Pac-Man", to: "/pacman" },  // Lägger till Pac-Man-länken här
 ] as const;
 
 export function Header() {
