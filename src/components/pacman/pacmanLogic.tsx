@@ -7,7 +7,6 @@ export const createBoard = () => {
     Array(BOARD_SIZE).fill(0)
   );
 
-  // Väggar
   board[2][2] = -1;
   board[2][3] = -1;
   board[2][4] = -1;

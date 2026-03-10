@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { usePacmanLogic } from "./pacmanLogic";
 import { Button } from "@/components/ui/button";
 
@@ -21,16 +21,32 @@ export const SimpleGame = () => {
     };
 
     window.addEventListener("keydown", handleKey);
-
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
-      <h2 className="text-xl font-bold">Score: {score}</h2>
 
+      {/* Instruktion för skärmläsare */}
+      <p className="sr-only">
+        Use arrow keys to move Pac-Man around the board and collect pellets.
+        Avoid the ghost.
+      </p>
+
+      {/* Score */}
+      <h2
+        className="text-xl font-bold"
+        aria-live="polite"
+        aria-label={`Current score ${score}`}
+      >
+        Score: {score}
+      </h2>
+
+      {/* Game board */}
       <div
         className="bg-black p-2"
+        role="grid"
+        aria-label="Pac-Man game board"
         style={{
           display: "grid",
           gridTemplateColumns: `repeat(${board.length}, 32px)`,
@@ -47,9 +63,18 @@ export const SimpleGame = () => {
           const isGhost =
             ghostPosition.x === x && ghostPosition.y === y;
 
+          let label = "Empty space";
+
+          if (cell === -1) label = "Wall";
+          if (cell === 0) label = "Pellet";
+          if (isPacman) label = "Pac-Man";
+          if (isGhost) label = "Ghost";
+
           return (
             <div
               key={index}
+              role="gridcell"
+              aria-label={`Row ${y + 1} column ${x + 1}: ${label}`}
               className="w-8 h-8 flex items-center justify-center"
               style={{
                 background: cell === -1 ? "#1e3a8a" : "black",
@@ -71,12 +96,44 @@ export const SimpleGame = () => {
         })}
       </div>
 
-      <div className="flex gap-2">
-        <Button onClick={() => movePacman("up")}>↑</Button>
-        <Button onClick={() => movePacman("down")}>↓</Button>
-        <Button onClick={() => movePacman("left")}>←</Button>
-        <Button onClick={() => movePacman("right")}>→</Button>
-        <Button variant="outline" onClick={resetGame}>
+      {/* Controls */}
+      <div
+        className="flex gap-2"
+        aria-label="Movement controls"
+      >
+        <Button
+          onClick={() => movePacman("up")}
+          aria-label="Move Pac-Man up"
+        >
+          ↑
+        </Button>
+
+        <Button
+          onClick={() => movePacman("down")}
+          aria-label="Move Pac-Man down"
+        >
+          ↓
+        </Button>
+
+        <Button
+          onClick={() => movePacman("left")}
+          aria-label="Move Pac-Man left"
+        >
+          ←
+        </Button>
+
+        <Button
+          onClick={() => movePacman("right")}
+          aria-label="Move Pac-Man right"
+        >
+          →
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={resetGame}
+          aria-label="Reset the Pac-Man game"
+        >
           Reset
         </Button>
       </div>
