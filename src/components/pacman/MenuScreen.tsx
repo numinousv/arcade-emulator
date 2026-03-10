@@ -1,15 +1,19 @@
-// /src/components/pacman/MenuScreen.tsx
+import { Button } from "@/components/ui/button";
+
 interface MenuScreenProps {
   onPlay: () => void;
 }
 
 export const MenuScreen = ({ onPlay }: MenuScreenProps) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-black">
-      <h1 className="text-6xl font-black text-purple-500">PAC-MAN</h1>
-      <button onClick={onPlay} className="mt-10 bg-purple-600 px-4 py-2 rounded">
+    <div className="flex flex-col items-center justify-center h-full bg-black gap-8">
+      <h1 className="text-6xl font-black text-yellow-400 tracking-widest">
+        PAC-MAN
+      </h1>
+
+      <Button size="lg" onClick={onPlay}>
         Start Game
-      </button>
+      </Button>
     </div>
   );
 };

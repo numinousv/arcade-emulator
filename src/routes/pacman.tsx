@@ -1,29 +1,28 @@
-// /src/routes/pacman.tsx
 import React, { useState } from "react";
-import { createFileRoute } from '@tanstack/react-router';
-import { MenuScreen } from '../components/pacman/MenuScreen';
-import { SimpleGame } from '../components/pacman/SimpleGame';
-import { usePacmanLogic } from '../components/pacman/pacmanLogic'; // Importera pacmanLogic
+import { createFileRoute } from "@tanstack/react-router";
+
+import { MenuScreen } from "../components/pacman/MenuScreen";
+import { SimpleGame } from "../components/pacman/SimpleGame";
+
+import { Button } from "@/components/ui/button";
 
 const ArcadeApp = () => {
   const [gameActive, setGameActive] = useState(false);
-  const { resetGame } = usePacmanLogic(); // Tillgång till logiken om nödvändigt
 
   return (
     <div className="h-screen w-screen bg-black text-white flex flex-col">
       {!gameActive ? (
-        <MenuScreen onPlay={() => {
-          resetGame(); // Reset spelet när användaren börjar spela
-          setGameActive(true);
-        }} />
+        <MenuScreen onPlay={() => setGameActive(true)} />
       ) : (
-        <div className="flex-1">
-          <button 
+        <div className="flex-1 relative">
+          <Button
+            variant="outline"
+            className="absolute top-4 left-4 z-10"
             onClick={() => setGameActive(false)}
-            className="absolute top-4 left-4 z-10 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded text-sm"
           >
-            ← MENY
-          </button>
+            ← Menu
+          </Button>
+
           <SimpleGame />
         </div>
       )}
@@ -31,8 +30,7 @@ const ArcadeApp = () => {
   );
 };
 
-// Definiera route i TanStack Router
-export const Route = createFileRoute('/pacman')({
+export const Route = createFileRoute("/pacman")({
   component: ArcadeApp,
 });
 

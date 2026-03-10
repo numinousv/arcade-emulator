@@ -1,64 +1,77 @@
 import { useState, useEffect } from "react";
 
-const BOARD_SIZE = 10;
+const BOARD_SIZE = 12;
 
-// Skapa spelbrädet
 export const createBoard = () => {
-  return Array.from({ length: BOARD_SIZE }, () => Array(BOARD_SIZE).fill(0));
+  const board = Array.from({ length: BOARD_SIZE }, () =>
+    Array(BOARD_SIZE).fill(0)
+  );
+
+  // Väggar
+  board[2][2] = -1;
+  board[2][3] = -1;
+  board[2][4] = -1;
+
+  board[5][5] = -1;
+  board[6][5] = -1;
+
+  board[7][2] = -1;
+  board[8][2] = -1;
+
+  return board;
 };
 
 export const usePacmanLogic = () => {
   const [board, setBoard] = useState(createBoard());
   const [score, setScore] = useState(0);
-  const [pacmanPosition, setPacmanPosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 });
-  const [ghostPosition, setGhostPosition] = useState<{ x: number, y: number }>({ x: 5, y: 5 }); // Spökets startposition
-  
-  // Initiera hinder
-  useEffect(() => {
-    const initialBoard = createBoard();
-    
-    // Lägg till hinder
-    initialBoard[2][2] = -1; // -1 representerar ett hinder
-    initialBoard[3][5] = -1; // fler hinder kan läggas till
-    initialBoard[6][1] = -1;
 
-    setBoard(initialBoard);
-  }, []);
+  const [pacmanPosition, setPacmanPosition] = useState({
+    x: 1,
+    y: 1,
+  });
+
+  const [ghostPosition, setGhostPosition] = useState({
+    x: 9,
+    y: 9,
+  });
 
   const movePacman = (direction: string) => {
     setBoard((prevBoard) => {
       const newBoard = prevBoard.map((row) => row.slice());
+
       let newX = pacmanPosition.x;
       let newY = pacmanPosition.y;
 
       switch (direction) {
-        case 'up':
-          if (pacmanPosition.y > 0) newY -= 1;
+        case "up":
+          newY -= 1;
           break;
-        case 'down':
-          if (pacmanPosition.y < BOARD_SIZE - 1) newY += 1;
+        case "down":
+          newY += 1;
           break;
-        case 'left':
-          if (pacmanPosition.x > 0) newX -= 1;
+        case "left":
+          newX -= 1;
           break;
-        case 'right':
-          if (pacmanPosition.x < BOARD_SIZE - 1) newX += 1;
+        case "right":
+          newX += 1;
           break;
       }
 
-      // Kontrollera om nästa position är en vägg
-      if (newBoard[newY][newX] === -1) {
-        // Om det är ett hinder, flytta inte
+      // hålla inom board
+      if (newX < 0 || newY < 0 || newX >= BOARD_SIZE || newY >= BOARD_SIZE)
         return prevBoard;
-      }
 
-      // Samla poäng om Pac-Man går till en matpunkt
+      // vägg
+      if (newBoard[newY][newX] === -1) return prevBoard;
+
+      // pellet
       if (newBoard[newY][newX] === 0) {
-        newBoard[newY][newX] = 1; // 1 representerar en matpunkt
-        setScore((prevScore) => prevScore + 1);
+        newBoard[newY][newX] = 1;
+        setScore((s) => s + 1);
       }
 
       setPacmanPosition({ x: newX, y: newY });
+
       return newBoard;
     });
   };
@@ -66,28 +79,32 @@ export const usePacmanLogic = () => {
   const resetGame = () => {
     setBoard(createBoard());
     setScore(0);
-    setPacmanPosition({ x: 0, y: 0 });
-    setGhostPosition({ x: 5, y: 5 }); // Återställ spökets position
+
+    setPacmanPosition({
+      x: 1,
+      y: 1,
+    });
+
+    setGhostPosition({
+      x: 9,
+      y: 9,
+    });
   };
 
-  const moveGhost = () => {
-    // Enkel logik för att flytta spöket
-    setInterval(() => {
-      setGhostPosition((prevGhost) => {
-        let newX = prevGhost.x + (Math.random() < 0.5 ? -1 : 1);
-        let newY = prevGhost.y + (Math.random() < 0.5 ? -1 : 1);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGhostPosition((prev) => {
+        let newX = prev.x + (Math.random() < 0.5 ? -1 : 1);
+        let newY = prev.y + (Math.random() < 0.5 ? -1 : 1);
 
-        // Hålla spöket inom gränserna
         newX = Math.max(0, Math.min(BOARD_SIZE - 1, newX));
         newY = Math.max(0, Math.min(BOARD_SIZE - 1, newY));
 
         return { x: newX, y: newY };
       });
-    }, 1000); // Spöket flyttar sig varje sekund
-  };
+    }, 800);
 
-  useEffect(() => {
-    moveGhost();
+    return () => clearInterval(interval);
   }, []);
 
   return {
