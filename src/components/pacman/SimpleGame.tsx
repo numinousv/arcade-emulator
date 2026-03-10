@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { usePacmanLogic } from "./pacmanLogic";
 import { Button } from "@/components/ui/button";
 
