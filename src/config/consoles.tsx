@@ -1,6 +1,5 @@
 import { GAMES } from "./games";
 
-// Get unique cores and create console definitions
 export const CONSOLES = [
   {
     id: "n64",
@@ -52,4 +51,4 @@ export const CONSOLES = [
     games: GAMES.filter((g) => g.core === "nes"),
     count: GAMES.filter((g) => g.core === "nes").length,
   },
-].filter((console) => console.count > 0); // Only show consoles that have games
+].filter((console) => console.count > 0); // exclusively show consoles that have games

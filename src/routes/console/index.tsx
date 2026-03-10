@@ -44,7 +44,8 @@ function HomePage() {
             SELECT CONSOLE
           </Button8>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Choose your platform and dive into a collection of classic games
+            Choose your console and dive into a personal collection of classic
+            games
           </p>
         </div>
 
