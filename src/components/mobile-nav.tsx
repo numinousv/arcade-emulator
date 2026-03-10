@@ -35,6 +35,9 @@ export function MobileNav() {
               "size-full p-4",
             )}
             data-slot={open ? "open" : "closed"}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation menu"
           >
             <div className="grid gap-y-2">
               {navLinks.map((link) => (

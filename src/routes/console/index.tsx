@@ -67,7 +67,7 @@ function HomePage() {
                     className={`
                     relative overflow-hidden cursor-pointer group
                     border-2 hover:border-primary transition-all
-                    bg-gradient-to-br w-full max-w-6xl mx-auto ${console.color}
+                    bg-linear-to-br w-full max-w-6xl mx-auto ${console.color}
                   `}
                   >
                     <CardHeader className="relative">
