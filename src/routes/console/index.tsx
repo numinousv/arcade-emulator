@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/8bit/card";
+} from "@/components/ui/card";
 import { Button8 } from "@/components/ui/8bit/button";
 import { CONSOLES } from "@/config/consoles";
 
@@ -44,7 +44,8 @@ function HomePage() {
             SELECT CONSOLE
           </Button8>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Choose your platform and dive into a collection of classic games
+            Choose your console and dive into a personal collection of classic
+            games
           </p>
         </div>
 

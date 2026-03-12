@@ -30,13 +30,13 @@ function HomePage() {
             transition={{ duration: 0.6 }}
             className="mb-16"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-amber-500 to-amber-300 bg-clip-text text-transparent">
-              RETRO ARCADE
+            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-linear-to-r from-amber-500 to-amber-300 bg-clip-text text-transparent">
+              Emulator-TS Retro Library
             </h1>
 
             <p className="text-lg text-muted-foreground max-w-2xl mb-8">
-              Dive into a collection of classic games from your favorite retro
-              consoles. No downloads, no setup—just click and play.
+              Enjoy a nostalgic collection of games from your favorite retro
+              consoles. Click and play, utilizing RetroArch through EmulatorJS.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">

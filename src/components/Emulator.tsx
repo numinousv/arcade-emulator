@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { SpinnerCustom } from "./ui/spinner";
 
 interface EmulatorProps {
   romUrl: string;
@@ -23,7 +24,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
       const arrayBuffer = await response.arrayBuffer();
       console.log("ROM size:", arrayBuffer.byteLength);
 
-      // DEBUG: Check if it's HTML instead of binary
+      // DEBUG: Check if it's HTML instead of binary (server host returns 404 or w/e, CORS issues)
       const firstBytes = new Uint8Array(arrayBuffer.slice(0, 20));
       const text = new TextDecoder().decode(firstBytes);
       console.log("First 20 chars:", text);
@@ -57,7 +58,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
       window.EJS_language = "en-US";
       window.EJS_cheats = [];
 
-      // Inject loader script
+      // loader script injection
       const script = document.createElement("script");
       script.src = "https://cdn.emulatorjs.org/stable/data/loader.js";
       script.async = true;
@@ -102,7 +103,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
         onClick={startGame}
         variant="outline"
         size="lg"
-        className="px-10 py-5 text-xl items-center text-muted-foreground mx-auto border-none rounded-lg cursor-pointer"
+        className="px-10 py-5 text-lg items-center text-muted-foreground mx-auto border-none rounded-lg cursor-pointer retro"
       >
         ▶ Play {gameName}
       </Button>
@@ -110,7 +111,17 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
   }
 
   if (status === "loading") {
-    return <div className="p-5 text-white">Loading game...</div>;
+    return (
+      <div className="p-5 text-white text-center justify-center">
+        {" "}
+        <SpinnerCustom />
+        <p>
+          Loading game... (trust the process i'll add idb caching soon maybe
+          idk)
+        </p>
+        <p>check network tab for dl rate for now</p>
+      </div>
+    );
   }
 
   return (

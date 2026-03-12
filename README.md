@@ -23,28 +23,6 @@ API-anrop och strukturerade hanteringsflöden av datanLinks to an external site.
 Optimeringar för ökad prestandaLinks to an external site.
 Optimeringar för ökad tillgänglighetLinks to an external site.
  
-
-Speech To Text App
-Om din grupp redan har en bra appidé är det fritt fram att arbeta på den. I annat fall finns det ett API som tar ljudfiler med tal, transkriberar dem och returnerar utskriften i en textsträng. API:t tillhör tjänsten ApyHubLinks to an external site. som har en mängd olika API:er man skulle kunna använda istället, om så önskas.
-
-ApyHub - Convert text to speechLinks to an external site.
- Designförslag
-NotezyLinks to an external site.
-Voice recorderLinks to an external site.
-AI TranscriptionLinks to an external site.
-API:t tar en .wav-fil med inspelat tal och en sträng med språket som talas
-Ladda ned en parsad array med alla språk som API:t stödjer härDownload array med alla språk som API:t stödjer här
- Kodexempel:
-Vår gemensamma API key är: APY0SBhWWI0kixOpkR0bkTaqthd3QpAaIzd4EwBzMO7OFRvAMqYM6cMXQ4e0Q29X
-fetch('https://api.apyhub.com/stt/file', {
-  method: 'POST',
-  headers: {
-    'apy-token': 'APY0SBhWWI0kixOpkR0bkTaqthd3QpAaIzd4EwBzMO7OFRvAMqYM6cMXQ4e0Q29X',
-  },
-  body: form
-}).then((res) => res.json());
- 
-
 E2 - Inlämningsuppgift med dokumentation (React-applikationens README)
 Denna bedöms separat, ett par dagar efter redovisningen ägt rum. Uppgiften ska dokumentera:
 

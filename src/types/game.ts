@@ -3,7 +3,5 @@ export interface Game {
   name: string;
   core: string;
   url: string;
-  cover?: string;
-  description?: string;
-  tags?: string[];
+  description: string;
 }
