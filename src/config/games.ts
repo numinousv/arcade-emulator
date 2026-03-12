@@ -8,7 +8,6 @@ export const GAMES: Game[] = [
     url: "https://files.catbox.moe/votlhe.z64",
     description: "",
   },
-  // banjo--> https://files.catbox.moe/qewlxt.z64
   {
     id: "DoA",
     name: "DoA",
@@ -65,5 +64,4 @@ export const GAMES: Game[] = [
     url: "https://files.catbox.moe/qa8bcx.nds",
     description: "",
   },
-  //https://files.catbox.moe/qa8bcx.nds
 ];
