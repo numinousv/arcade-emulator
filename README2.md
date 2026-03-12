@@ -297,3 +297,86 @@ Files prefixed with `demo` can be safely deleted. They are there to provide a st
 # Learn More
 
 You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+
+
+
+
+
+
+
+
+
+
+Projekt:  Arcade
+**Projektets struktur och arbetsflöde
+Applikationen är byggd med en modulär struktur där logik och visning separeras.
+
+* Routing: I spelat används TanStack Router. När användaren klickar på ett spel, startsida eller en meny laddas bara den specifika sidan. Det gör att appen känns snabb och back/forward-knapparna i webbläsaren fungerar som förväntat.
+
+```tsx
+<Link to="/arcade">Arcade</Link>
+<Link to="/">Home</Link>
+<Outlet />
+```
+* Komponenter:  används en komponentbaserad struktur för att enkelt kunna lägga till nya spel utan att ändra befintlig kod.
+
+* State Management (Zustand): En global store används för att synka data mellan komponenter.
+
+```tsx
+export const useGameStore = create<GameState>((set) => ({
+  selectedGame: null,
+  isPlaying: false,
+  selectGame: (game) => set({ selectedGame: game, isPlaying: true }),
+}));
+```
+* Datahantering: Konfigurationsfiler  ```tsx (/config)``` för konsoler och spel används för att göra arkitekturen skalbar.
+
+**Tillgänglighetsprinciper
+
+Semantiska taggar: Användning av korrekta HTML-element.
+
+ARIA-stöd: * ```tsx aria-label```: För att ge etiketter till element (för exempel ikonknappar).
+```tsx aria-live```: För att meddela användaren om dynamiska innehållsförändringar.
+
+Keyboard: Appen följer standarder så att alla delar kan nås utan mus.
+
+WCAG-standarder: Färger och animationer följer riktlinjer för god läsbarhet och användarvänlighet.
+
+
+**Optimering och Prestanda
+
+Lazy Loading: Vi använder lazy loading för ```tsx Emulator```-komponenten. Den laddas inte förrän användaren faktiskt startar ett spel, vilket minskar starttiden.
+```tsx ConsolePage``` laddas biblioteket först, och emulatorn renderas bara om ett spel är valt:
+
+```tsx {!game ? (
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {filteredGames.map((g) => <GameCard key={g.id} game={g} ... />)}
+  </div>
+) : (
+  <Emulator romUrl={game.url} core={game.core} />
+)}
+```
+
+API-anrop: När ett spel startas görs ett ```tsx fetch``` -anrop till URL:en för ROM-filen. Vi kontrollerar att servern returnerar korrekt binärdata (arrayBuffer) och inte en fel-sida, vilket gör anropet säkert och robust.
+
+
+
+
+**Dataflöde
+"Från URL till sida: Dynamisk data hämtas via URL-parametrar."
+Kodexempel: ```tsx const { consoleId } = Route.useParams();``` i ```tsx ConsolePage```.
+
+Från komponent till Store: När en användare väljer ett spel uppdateras vårt globala state:
+
+Kodexempel: ```tsx onClick={() => selectGame(game)}``` inuti ett ```tsx GameCard```.
+
+
+**Reflektion kring AI och kodutveckling 
+Under utvecklingen användes AI som ett verktyg för att få lösningsförslag, men det konstaterades snabbt att de genererade förslagen ofta var för komplicerade och saknade koppling till projektets specifika komponenter och struktur.
+
+Istället för att använda de otydliga AI-förslagen utvecklades koden manuellt för att säkerställa att logiken matchade applikationens arkitektur.
+
+
+
+
+
