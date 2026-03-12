@@ -15,7 +15,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/8bit/card";
+} from "@/components/ui/card";
 import { Button8 } from "@/components/ui/8bit/button";
 import { CONSOLES } from "@/config/consoles";
 

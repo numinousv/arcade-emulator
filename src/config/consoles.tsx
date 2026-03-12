@@ -51,4 +51,15 @@ export const CONSOLES = [
     games: GAMES.filter((g) => g.core === "nes"),
     count: GAMES.filter((g) => g.core === "nes").length,
   },
-].filter((console) => console.count > 0); // exclusively show consoles that have games
+  {
+    id: "nds",
+    name: "Nintendo DS",
+    description:
+      "A portable console with an actual functional screen (unlike GBC)",
+    icon: "💿",
+    color: "from-red-300 to-red-500",
+    core: "nds",
+    games: GAMES.filter((g) => g.core === "nds"),
+    count: GAMES.filter((g) => g.core === "nds").length,
+  },
+].filter((console) => console.count > 0); // exclusively show consoles that have games, will add more later lazy idk

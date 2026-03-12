@@ -1,16 +1,18 @@
-import { create } from 'zustand';
-import { Game } from '../types/game';
+import { create } from "zustand";
 
-interface GameState {
-  selectedGame?: Game | null;
-  isPlaying: boolean;
-  selectGame: (game: Game) => void;
-  stopGame: () => void;
+interface GameStore {
+  selectedGameId: string | null;
+  recentGames: string[];
+  setSelectedGame: (id: string | null) => void;
+  addRecentGame: (id: string) => void;
 }
 
-export const useGameStore = create<GameState>((set) => ({
-  selectedGame: null,
-  isPlaying: false,
-  selectGame: (game) => set({ selectedGame: game, isPlaying: true }),
-  stopGame: () => set({ selectedGame: null, isPlaying: false }),
+export const useGameStore = create<GameStore>((set) => ({
+  selectedGameId: null,
+  recentGames: [],
+  setSelectedGame: (id) => set({ selectedGameId: id }),
+  addRecentGame: (id) =>
+    set((state) => ({
+      recentGames: [id, ...state.recentGames.slice(0, 4)],
+    })),
 }));
