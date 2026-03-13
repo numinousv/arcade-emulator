@@ -95,8 +95,8 @@ function ConsolePage() {
           </div>
         ) : (
           /* suspense for gameplay view */
-          <div className="flex flex-col items-center max-w-4xl mx-auto">
-            <div className="w-full mb-4 flex items-center gap-4">
+          <div className="flex flex-col items-center max-w-7xl mx-auto">
+            <div className="w-full mb-4 flex items-center">
               <Button8
                 variant="outline"
                 onClick={() => setSelectedGame(null)}
@@ -106,9 +106,6 @@ function ConsolePage() {
                 <MoveLeftIcon className="h-4 w-4" /> Back to {console.name}{" "}
                 Games
               </Button8>
-              <h2 className="text-amber-600 max-w-4xl mx-auto retro">
-                Now Playing: {game.name}
-              </h2>
             </div>
 
             <Suspense

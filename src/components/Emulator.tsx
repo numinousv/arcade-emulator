@@ -103,7 +103,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
         onClick={startGame}
         variant="outline"
         size="lg"
-        className="px-10 py-5 text-lg items-center text-muted-foreground mx-auto border-none rounded-lg cursor-pointer retro"
+        className="px-10 py-5 text-xs items-center text-muted-foreground mx-auto border-none rounded-lg cursor-pointer retro"
       >
         ▶ Play {gameName}
       </Button>
