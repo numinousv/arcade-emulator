@@ -39,7 +39,8 @@ const config = defineConfig({
       "/api/archive": {
         target: "https://archive.org",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/catbox/, ""),
+        rewrite: (path) => path.replace(/^\/api\/archive/, ""),
+        followRedirects: true, // status 302 = archive.org redirects to ia*.us.archive.org./14/.nds/.nds = cors error, redirect fix
       },
     },
   },

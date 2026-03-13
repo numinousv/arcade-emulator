@@ -1,5 +1,6 @@
 import { Game } from "@/types/game";
 
+// .zip och 7z filer funkar bra, finns en funktion i emulatorjs extractzip() / extract7z() som drar ut filen.
 export const GAMES: Game[] = [
   {
     id: "starfox",
@@ -9,10 +10,10 @@ export const GAMES: Game[] = [
     description: "",
   },
   {
-    id: "DoA",
+    id: "doa",
     name: "DoA",
     core: "psx",
-    url: "https://files.catbox.moe/8widzu.bin",
+    url: "https://files.catbox.moe/f6ooqh.zip",
     description: "",
   },
   {
@@ -23,31 +24,31 @@ export const GAMES: Game[] = [
     description: "",
   },
   {
-    id: "Turtles in Time",
+    id: "turtles-in-time",
     name: "TMNT: Turtles in Time",
     core: "snes",
     url: "https://files.catbox.moe/hr8y21.sfc",
     description: "",
   },
   {
-    id: "Battletoads",
+    id: "battletoads-nes",
     name: "Battletoads",
     core: "nes",
     url: "https://files.catbox.moe/6gj1tb.nes",
     description: "",
   },
   {
-    id: "Battletoads in Battlemaniacs",
-    name: "Battletoads (SNES)",
+    id: "battletoads-snes",
+    name: "Battletoads in Battlemaniacs",
     core: "snes",
-    url: "https://files.catbox.moe/8oy7r1.smc",
+    url: "https://files.catbox.moe/qya8l0.sfc",
     description: "",
   },
   {
-    id: "Symphony of the Night",
+    id: "sotn",
     name: "Castlevania: Symphony of the Night",
     core: "psx",
-    url: "https://litter.catbox.moe/5d3if6a7iqvunarg.bin",
+    url: "/api/archive/download/ffta2grim.nds/cstlvnia.zip",
     description: "",
   },
   {
@@ -58,10 +59,10 @@ export const GAMES: Game[] = [
     description: "",
   },
   {
-    id: "Final Fantasy Tactics A2",
+    id: "ffta2",
     name: "Final Fantasy Tactics A2",
     core: "nds",
-    url: "https://files.catbox.moe/qa8bcx.nds",
+    url: "/api/archive/download/ffta2grim.nds/ffta2grim.nds",
     description: "",
   },
 ];

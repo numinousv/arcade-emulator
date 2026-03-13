@@ -94,7 +94,7 @@ function ConsolePage() {
             </div>
           </div>
         ) : (
-          /* suspense for gameplay view */
+          /* suspense for gameplay view, set window resolution/size */
           <div className="flex flex-col items-center max-w-7xl mx-auto">
             <div className="w-full mb-4 flex items-center">
               <Button8
