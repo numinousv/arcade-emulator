@@ -21,15 +21,27 @@ const config = defineConfig({
   ],
 
   server: {
-    cors: true, // enables CORS
+    cors: {
+      origin: /https?:\/\/([A-Za-z0-9\-\.]+)?(\.ddev\.site)(:\d+)?$/,
+    },
     proxy: {
-      "/api": {
-        target: "https://catbox.moe", // directly target the actual API
+      // API proxy
+      "/api/codeberg": {
+        target: "https://codeberg.org", //vafan det funkade ju :/
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        rewrite: (path) => path.replace(/^\/api\/codeberg/, ""),
+      },
+      "/api/catbox": {
+        target: "https://catbox.moe",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/catbox/, ""),
+      },
+      "/api/archive": {
+        target: "https://archive.org",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/catbox/, ""),
       },
     },
   },
 });
-
 export default config;

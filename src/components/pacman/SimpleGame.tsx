@@ -1,16 +1,10 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { usePacmanLogic } from "./pacmanLogic";
 import { Button } from "@/components/ui/button";
 
 export const SimpleGame = () => {
-  const {
-    board,
-    score,
-    pacmanPosition,
-    ghostPosition,
-    movePacman,
-    resetGame,
-  } = usePacmanLogic();
+  const { board, score, pacmanPosition, ghostPosition, movePacman, resetGame } =
+    usePacmanLogic();
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -26,7 +20,6 @@ export const SimpleGame = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6">
-
       {/* Instruktion för skärmläsare */}
       <p className="sr-only">
         Use arrow keys to move Pac-Man around the board and collect pellets.
@@ -57,11 +50,9 @@ export const SimpleGame = () => {
           const x = index % board.length;
           const y = Math.floor(index / board.length);
 
-          const isPacman =
-            pacmanPosition.x === x && pacmanPosition.y === y;
+          const isPacman = pacmanPosition.x === x && pacmanPosition.y === y;
 
-          const isGhost =
-            ghostPosition.x === x && ghostPosition.y === y;
+          const isGhost = ghostPosition.x === x && ghostPosition.y === y;
 
           let label = "Empty space";
 
@@ -84,9 +75,7 @@ export const SimpleGame = () => {
                 <div className="w-6 h-6 bg-yellow-400 rounded-full" />
               )}
 
-              {isGhost && (
-                <div className="w-6 h-6 bg-red-500 rounded-full" />
-              )}
+              {isGhost && <div className="w-6 h-6 bg-red-500 rounded-full" />}
 
               {!isPacman && !isGhost && cell === 0 && (
                 <div className="w-2 h-2 bg-white rounded-full" />
@@ -97,14 +86,8 @@ export const SimpleGame = () => {
       </div>
 
       {/* Controls */}
-      <div
-        className="flex gap-2"
-        aria-label="Movement controls"
-      >
-        <Button
-          onClick={() => movePacman("up")}
-          aria-label="Move Pac-Man up"
-        >
+      <div className="flex gap-2" aria-label="Movement controls">
+        <Button onClick={() => movePacman("up")} aria-label="Move Pac-Man up">
           ↑
         </Button>
 
