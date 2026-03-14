@@ -38,13 +38,6 @@ export const GAMES: Game[] = [
     description: "",
   },
   {
-    id: "battletoads-snes",
-    name: "Battletoads in Battlemaniacs",
-    core: "snes",
-    url: "https://files.catbox.moe/qya8l0.sfc",
-    description: "",
-  },
-  {
     id: "sotn",
     name: "Castlevania: Symphony of the Night",
     core: "psx",
@@ -113,6 +106,13 @@ export const GAMES: Game[] = [
     core: "snes",
     url: "/api/archive/download/ffta2grim.nds/Chrono%20Trigger%20%28USA%29.zip",
     description: "++++",
+  },
+  {
+    id: "ff-ix",
+    name: "Final Fantasy IX (DISC 1)",
+    core: "psx",
+    url: "/api/archive/download/ffta2grim.nds/Final%20Fantasy%20IX%20%28USA%2C%20Canada%29%20%28Disc%201%29%20%28Rev%201%29.7z",
+    description: "fin -> export savefile -> load disc 2 -> import save file",
   },
   {
     id: "ff-viii",
