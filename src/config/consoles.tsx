@@ -82,4 +82,14 @@ export const CONSOLES = [
     games: GAMES.filter((g) => g.core === "psp"),
     count: GAMES.filter((g) => g.core === "psp").length,
   },
+  {
+    id: "segaMD",
+    name: "Sega Genesis / MegaDrive",
+    description: "sega does what nintendon't and blast processing...",
+    icon: "💿",
+    color: "from-pink-300 to-pink-500",
+    core: "segaMD",
+    games: GAMES.filter((g) => g.core === "segaMD"),
+    count: GAMES.filter((g) => g.core === "segaMD").length,
+  },
 ].filter((console) => console.count > 0); // exclusively show consoles that have games, will add more later lazy idk
