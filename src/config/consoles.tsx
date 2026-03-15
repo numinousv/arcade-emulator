@@ -54,8 +54,7 @@ export const CONSOLES = [
   {
     id: "nds",
     name: "Nintendo DS",
-    description:
-      "A portable console with an actual functional screen (unlike GBC)",
+    description: "! Use the desmume2015 Core for  better performance !",
     icon: "💿",
     color: "from-red-300 to-red-500",
     core: "nds",
