@@ -101,6 +101,13 @@ export const GAMES: Game[] = [
     description: "animation fix ver. - better than the 2025 remake btw", // ofc it doesnt work even though it should wow
   },
   {
+    id: "disgaea",
+    name: "Disgaea: Afternoon of Darkness",
+    core: "psp",
+    url: "/api/archive/download/ffta2grim.nds/Disgaea%20-%20Afternoon%20of%20Darkness%20%28USA%29.7z",
+    description: "fin -> export savefile -> load disc 2 -> import save file",
+  },
+  {
     id: "chrono-trigger",
     name: "Chrono Trigger",
     core: "snes",
@@ -119,6 +126,20 @@ export const GAMES: Game[] = [
     name: "Final Fantasy VIII (DISC 1)",
     core: "psx",
     url: "/api/archive/download/ffta2grim.nds/Final%20Fantasy%20VIII%20%28USA%29%20%28Disc%201%29.7z",
+    description: "fin -> export savefile -> load disc 2 -> import save file",
+  },
+  {
+    id: "vagrant-story",
+    name: "Vagrant Story",
+    core: "psx",
+    url: "/api/archive/download/ffta2grim.nds/Vagrant%20Story%20%28USA%29.7z",
+    description: "fin -> export savefile -> load disc 2 -> import save file",
+  },
+  {
+    id: "ff-tactics",
+    name: "Final Fantasy Tactics",
+    core: "psx",
+    url: "/api/archive/download/ffta2grim.nds/Final%20Fantasy%20Tactics%20%28USA%29.7z",
     description: "fin -> export savefile -> load disc 2 -> import save file",
   },
 ];

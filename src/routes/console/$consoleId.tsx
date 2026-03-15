@@ -95,7 +95,7 @@ function ConsolePage() {
           </div>
         ) : (
           /* suspense for gameplay view, set window resolution/size */
-          <div className="flex flex-col items-center max-w-7xl mx-auto">
+          <div className="flex flex-col items-center max-w-5xl mx-auto">
             <div className="w-full mb-4 flex items-center">
               <Button8
                 variant="outline"
@@ -111,7 +111,7 @@ function ConsolePage() {
             <Suspense
               fallback={
                 <div
-                  className="w-full bg-black/20 rounded-lg p-8 text-center"
+                  className="w-5xl bg-black/20 rounded-lg p-8 text-center"
                   role="status"
                   aria-live="polite"
                 >
@@ -121,7 +121,7 @@ function ConsolePage() {
                 </div>
               }
             >
-              <div className="w-full bg-black/20 rounded-lg p-4">
+              <div className="w-5xl bg-black/20 rounded-lg p-4">
                 <Emulator
                   romUrl={game.url}
                   core={game.core}

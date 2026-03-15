@@ -16,6 +16,7 @@ declare global {
     EJS_GameID?: string;
     EJS_backgroundImage?: string;
     EJS_backgroundColor?: string;
+    EJS_threads?: boolean;
     EJS_disableCheat?: boolean;
     EJS_emulator?: {
       start: () => void;

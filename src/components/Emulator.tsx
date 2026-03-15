@@ -57,6 +57,7 @@ export function Emulator({ romUrl, core, gameName }: EmulatorProps) {
       window.EJS_disableAutoLang = true;
       window.EJS_language = "en-US";
       window.EJS_cheats = [];
+      window.EJS_threads = true;
 
       // loader script injection
       const script = document.createElement("script");
