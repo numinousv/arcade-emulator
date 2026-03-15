@@ -97,7 +97,7 @@ export const GAMES: Game[] = [
     id: "ff-tactics-wotl",
     name: "Final Fantasy Tactics: WOTL",
     core: "psp",
-    url: "/api/archive/download/ffta2grim.nds/Final%20Fantasy%20Tactics%20The%20War%20of%20the%20Lions%20%28Wolt%20USA%20fast%20fix%20by%20Nexus%29.iso",
+    url: "/api/archive/download/ffta2grim.nds/fft.7z",
     description: "animation fix ver. - better than the 2025 remake btw", // ofc it doesnt work even though it should wow
   },
   {
@@ -182,6 +182,41 @@ export const GAMES: Game[] = [
     name: "Tactics: Ogre",
     core: "psx",
     url: "/api/archive/download/ffta2grim.nds/Tactics%20Ogre%20%28USA%29.7z",
+    description: "",
+  },
+  {
+    id: "phoenixwright",
+    name: "Phoenix Wright: Ace Attorney",
+    core: "nds",
+    url: "https://files.catbox.moe/8mxc33.zip",
+    description: "",
+  },
+  {
+    id: "fsrmm",
+    name: "Flower, Sun and Rain - Murder and Mystery in Paradise",
+    core: "nds",
+    url: "https://files.catbox.moe/q0tatc.zip",
+    description: "",
+  },
+  {
+    id: "ffiii",
+    name: "Final Fantasy III",
+    core: "snes",
+    url: "https://files.catbox.moe/7kqo24.zip",
+    description: "",
+  },
+  {
+    id: "smtds",
+    name: "SMT - Devil Survivor",
+    core: "nds",
+    url: "https://files.catbox.moe/7an9t3.zip",
+    description: "",
+  },
+  {
+    id: "ffiv",
+    name: "Final Fantasy IV",
+    core: "nds",
+    url: "https://files.catbox.moe/lpyb53.zip",
     description: "",
   },
 ];
