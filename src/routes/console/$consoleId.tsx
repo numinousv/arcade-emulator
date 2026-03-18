@@ -23,6 +23,18 @@ function ConsolePage() {
   const { consoleId } = Route.useParams();
   const { selectedGameId, setSelectedGame, addRecentGame } = useGameStore();
 
+  //  Ratings state
+  const [ratings, setRatings] = useState<{ [key: string]: number }>(() => {
+    const stored = localStorage.getItem("game-ratings");
+    return stored ? JSON.parse(stored) : {};
+  });
+
+  const rateGame = (gameId: string, value: number) => {
+    const updated = { ...ratings, [gameId]: value };
+    setRatings(updated);
+    localStorage.setItem("game-ratings", JSON.stringify(updated));
+  };
+
   const console = CONSOLES.find((c) => c.id === consoleId);
   const game = console?.games.find((g) => g.id === selectedGameId);
 
@@ -30,6 +42,7 @@ function ConsolePage() {
     setSelectedGame(id);
     addRecentGame(id);
   };
+
 
   if (!console) {
     return (
@@ -45,6 +58,9 @@ function ConsolePage() {
     );
   }
 
+  if (!console) return <div>Console not found</div>;
+>>>>>>> laiba
+
   return (
     <div className="relative min-h-screen w-full">
       <Particles className="absolute inset-0" quantity={120} />
@@ -55,7 +71,11 @@ function ConsolePage() {
         className="relative z-10 container mx-auto px-4 pt-24 pb-8"
       >
         {!game ? (
+
           // game selec view
+
+          // Game Selection View
+>>>>>>> laiba
           <div>
             <div className="flex items-center gap-4 mb-8 text-muted-foreground">
               <Link to="/console">
@@ -68,6 +88,7 @@ function ConsolePage() {
                   All Consoles
                 </Button8>
               </Link>
+
               <div>
                 <h1 className="text-2xl font-bold text-orange-300 retro">
                   {console.name}
@@ -86,17 +107,65 @@ function ConsolePage() {
               {console.games.map((g) => (
                 <GameCard
                   key={g.id}
+
                   game={g}
                   onSelect={handleGameSelect}
                   color={console.color}
                 />
+
+
+                  className={`
+                    relative overflow-hidden cursor-pointer group
+                    border-2 hover:border-primary transition-all
+                    bg-gradient-to-br w-full max-w-6xl mx-auto ${console.color}
+                  `}
+                  onClick={() => setSelectedGame(g.id)}
+                >
+                  <CardHeader>
+                    <CardTitle className="text-lg">{g.name}</CardTitle>
+                    <CardDescription>{g.core}</CardDescription>
+                  </CardHeader>
+
+                  <CardContent>
+                    <p className="text-muted-foreground max-w-3xl mx-auto">
+                      {g.description || "Click to play"}
+                    </p>
+
+                    {/* ⭐ Star Rating */}
+                    <div className="flex gap-1 mt-2">
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <span
+                          key={n}
+                          onClick={(e) => {
+                            e.stopPropagation(); // don't trigger game start
+                            rateGame(g.id, n);
+                          }}
+                          className={`cursor-pointer text-xl ${
+                            n <= (ratings[g.id] || 0)
+                              ? "text-yellow-400"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          ★
+                        </span>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+>>>>>>> laiba
               ))}
             </div>
           </div>
         ) : (
+
           /* suspense for gameplay view, set window resolution/size */
           <div className="flex flex-col items-center max-w-7xl mx-auto">
             <div className="w-full mb-4 flex items-center">
+
+          // Game Play View
+          <div className="flex flex-col items-center max-w-4xl mx-auto">
+            <div className="w-full mb-4 flex items-center gap-4">
+>>>>>>> laiba
               <Button8
                 variant="outline"
                 onClick={() => setSelectedGame(null)}
