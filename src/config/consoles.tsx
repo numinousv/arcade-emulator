@@ -1,6 +1,5 @@
 import { GAMES } from "./games";
 
-// Get unique cores and create console definitions
 export const CONSOLES = [
   {
     id: "n64",
@@ -52,4 +51,35 @@ export const CONSOLES = [
     games: GAMES.filter((g) => g.core === "nes"),
     count: GAMES.filter((g) => g.core === "nes").length,
   },
-].filter((console) => console.count > 0); // Only show consoles that have games
+  {
+    id: "nds",
+    name: "Nintendo DS",
+    description:
+      "A portable console with an actual functional screen (unlike GBC)",
+    icon: "💿",
+    color: "from-red-300 to-red-500",
+    core: "nds",
+    games: GAMES.filter((g) => g.core === "nds"),
+    count: GAMES.filter((g) => g.core === "nds").length,
+  },
+  {
+    id: "segaSaturn",
+    name: "Sega Saturn",
+    description: "Underrated, but Dreamcast is still their magnum opus",
+    icon: "🪐",
+    color: "from-purple-600 to-purple-300",
+    core: "segaSaturn",
+    games: GAMES.filter((g) => g.core === "segaSaturn"),
+    count: GAMES.filter((g) => g.core === "segaSaturn").length,
+  },
+  {
+    id: "psp",
+    name: "Playstation Portable",
+    description: "I need to buy a physical psp one day...",
+    icon: "💿",
+    color: "from-blue-300 to-blue-500",
+    core: "psp",
+    games: GAMES.filter((g) => g.core === "psp"),
+    count: GAMES.filter((g) => g.core === "psp").length,
+  },
+].filter((console) => console.count > 0); // exclusively show consoles that have games, will add more later lazy idk
