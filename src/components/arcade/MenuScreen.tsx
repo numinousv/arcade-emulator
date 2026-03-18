@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { GameIcon } from './GameIcon'
+import { GameIcon } from '../assets/GameIcon'
 import { Leaderboard } from './Leaderboard'
 
 interface MenuScreenProps {
